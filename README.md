@@ -10,7 +10,7 @@ For more information about the provided targets (tasks) use `make help`.
 You can use tools like [Overleaf](https://www.overleaf.com) as web editor if you don`t want to install LaTeX locally. Just upload the files and you should be good to go!
 
 ### Local Setup (Linux)
-* Install `latexmk`, `TexLive` and used packages, e.g. on Ubuntu based systems via `sudo apt-get install texlive texlive-latex-extra texlive-lang-german biber latexmk`
+* Install `latexmk`, `TexLive` and used packages, e.g. on Ubuntu based systems via `sudo apt-get install texlive texlive-luatex texlive-latex-extra texlive-lang-german biber latexmk`
 * Install the LaTeX editor of your choice
 
 ### Local Setup (macOS)
