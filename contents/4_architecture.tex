@@ -1,4 +1,82 @@
 \chapter{Architecture}
 \label{chapter:architecture}
 
-lorem ipsum
+The MECOIS setup consists of 3 separate systems, that communicate via HTTP.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.5\textwidth]{resources/placeholder.jpg}
+	\caption{Basic System Architecture} 
+	\label{fig:basic_system_architecture}
+\end{figure}
+
+\section{Main System}
+\label{sec:main_system}
+
+The main systems is responsible everything but the identity management and therefore has many components.
+
+\subsection{Components}
+\label{subsec:components}
+
+Figure \ref{fig:MecoIS_GitHub_Structure} displays an overview of all components. \autocite{github_mecois}
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/MecoIS_GitHub_Structure.png}
+	\caption{Main System Components \autocite{github_mecois}} 
+	\label{fig:MecoIS_GitHub_Structure}
+\end{figure}
+
+
+\subsubsection{Sources}
+\label{subsubsec:sources}
+
+The sources define the origin for the data. Currently we are using Git (Github and Gitlab), Confluence and Jira as source. For Example from Github we pull among other commits, issues and pipelines.
+
+\subsubsection{Infrastructure}
+\label{subsubsec:infrastructure}
+
+The infrastructure provides the database for the project. The data is stored in a datalake, which is a repository, where data is stored as-is without further structure \autocite{datalake_aws}. Each set of data passes through 4 Stages: raw, bronze, silver, gold.
+
+\subsubsection{Pipeline}
+\label{subsubsec:pipeline}
+
+The pipelines transform the data between the stages.
+
+
+\subsubsection{Analytics}
+\label{subsubsec:analytics}
+
+In the last step the data is used to provide multiple analytics for customers. Examples for such analytics are:
+
+\begin{itemize}
+	\item Calculating the Costs of Inner Source Collaboration by Computing the Time Worked \autocite{analytic_cost}
+	\item Estimating Software Contribution Time	from Git and GitHub Metadata \autocite{analytic_contribution}
+\end{itemize}
+
+\subsubsection{Services}
+\label{subsubsec:services}
+
+Services are helper modules for pipelines and analytics. Such helper modules are:
+
+\begin{itemize}
+	\item AI: a framework for communicating with a \ac{LLM}.
+	\item config handling: Parses configuration files for pipelines.
+\end{itemize}
+
+\subsubsection{Frontend}
+\label{subsubsec:frontend}
+
+The frontend provides a Dashboard for the user-facing components of MECOIS.
+
+
+\subsection{Dataflow}
+\label{subsec:dataflow}
+
+After pulling the source the raw data is stored exactly as provided as JSON.
+
+Figure \ref{fig:dataflow} displays an overview of all components. \autocite{github_mecois}
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/MecoIS_Pipeline_Structure_Simple.png}
+	\caption{Dataflow \autocite{github_mecois}} 
+	\label{fig:dataflow}
+\end{figure}

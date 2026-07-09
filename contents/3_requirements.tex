@@ -1,15 +1,72 @@
 \chapter{Requirements}
 \label{chapter:requirements}
 
-The purpose of this chapter is to define the requirements necessary to facilitate a GDPR-compliant productivity benchmarking system. They can split into functional requirements, which must be addressed and solved in this thesis. Non-functional requirements define 
+The purpose of this chapter is to define the requirements necessary to facilitate a GDPR-compliant productivity benchmarking system. \textcite{IEEE} splits requirements into functional and nonfunctional ones. Functional requirements define what a product must do and nonfunctional ones declare how the system should operate. Furthermore, the requirements can classified into legality, system and integration. The service must abide to relevant data protection laws. System requirements specify how the service itself will be designed according to the author. The MECOIS project itself sets some integration demands in its contributing guidelines \autocite{mecois_contributing}, that must be satisfied.
+
+\section{Functional Requirements}
+\label{sec:functional_requirements}
+
+The table \ref{tab:functional_requirements} specifies what the anonymization must do.
+They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
+
+\begin{table}[ht]
+	\caption{Functional requirements}
+	\label{tab:functional_requirements}
+	\begin{tabular}{|l|l|p{7cm}|}
+		\hline
+		ID & Requirement & Description \\
+		\hline
+		FLR-1 & Data Anonymization & 
+		The service must follow the \ac{GDPR} which is defined by the \ac{DSGVO} in Germany. \\
+		\hline
+		FSR-1 & Preserve Data & 
+		The service must preserve all available Data. \\
+		\hline
+		FSR-2 & independent Deployment & 
+		The service can be deployed and run independent from the rest of the MECOIS project. \\
+		\hline
+		FIR-1 & Seamless Integration &
+		The service must integrate into the project with as few changes as possible to existing features. \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{DSGVO}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two.
 
 
-The purpose of this chapter is to define the technical and legal requirements necessary to facilitate a GDPR-compliant productivity benchmarking system. Given the sensitive nature of developer activity data sourced from repositories such as GitHub and Jira, the requirements are derived from a dual perspective: the mandatory legal constraints imposed by the General Data Protection Regulation (GDPR) and the Federal Data Protection Act (BDSG), and the functional necessity to maintain high-fidelity metrics for productivity analysis. This chapter establishes the baseline criteria for pseudonymization, data minimization, and auditability that the proposed architecture must satisfy to ensure 'Data Protection by Design' as mandated by Article 25 of the GDPR.
+\section{Nonfunctional Requirements}
+\label{sec:nonfunctional_requirements}
 
-\section{legal requirements}
+The table \ref{tab:nonfunctional_requirements} specifies how the anonymization service must operate.
+They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it is evaluated in chapter \ref{chapter:design_and_implementation}, how the legal requirements will be satisfied.
 
-lorem ipsum
-
-\section{programming requirements}
-
- abc
+ \begin{table}[ht]
+ 	\caption{Nonfunctional requirements}
+ 	\label{tab:nonfunctional_requirements}
+ 	\begin{tabular}{|l|l|p{7cm}|}
+ 		\hline
+ 		ID & Requirement & Description \\
+ 		\hline
+ 		NFSR-1 & Containerized Service & 
+ 		The service must run in a docker container. \\
+ 		\hline
+ 		NFIR-1 & Licence Policy & 
+ 		The contributing guidelines \autocite{github_mecois} state:
+ 		
+ 		"You are allowed to use any package that can help you do your work, as long as it is not a copyleft or proprietary license. However, it is still a good idea to ask beforehand, so you do not put in unnecessary work." \\
+ 		\hline
+ 		NFIR-2 & Styleguide and Clean Code & 
+ 		The contributing guidelines \autocite{github_mecois} state:
+ 		
+ 		"We follow the PEP8 standard (with minor exceptions like allowing longer line limits). You can run the custom linter using: pylint.
+ 		
+ 		Additionally, your code must follow these rules before being merged into the main branch:
+ 		
+ 		\begin{itemize}
+ 		\item Remove comments that are not necessary for understanding your code
+ 		\item Remove unnecessary print statements
+ 		\item Make sure to update and provide the DocString description of the methods you write. Make sure to have it adjusted to your use-case if you copy method-stubs from other part of the code"
+ 		\end{itemize}\\
+ 		\hline
+ 	\end{tabular}
+ \end{table}
