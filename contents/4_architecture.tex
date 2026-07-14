@@ -4,7 +4,7 @@
 The MECOIS setup consists of 3 separate systems, that communicate via HTTP. The systems are separated to protect sensitive information.
 
 \begin{figure}[ht]
-	\includegraphics[width=0.5\textwidth]{resources/placeholder.jpg}
+	\includegraphics[width=\textwidth]{resources/architecture.png}
 	\caption{Basic System Architecture} 
 	\label{fig:basic_system_architecture}
 \end{figure}
@@ -144,8 +144,8 @@ Some analytics may need some mechanism to update the generated metric. This proc
 The anonymization system provides the anonymization service, that anonymizes the data according to the \ac{GDPR}.
 It provides a client library for sending data and requesting identities. 
 
-\section{identity Mangement System}
-\label{sec:identity_mangement_system}
+\section{Identity Management System}
+\label{sec:identity_management_system}
 
 The identity management system is reponsible for storing all information about individuals. The project is using the tool Sortinghat from the toolset GrimoireLab by CHAOSS. This application is provided under the GPL-3.0 license.
 
@@ -157,9 +157,15 @@ One individual my have multiple identities on different platforms. The system ca
 The Sortinghat provides a dashboard, where individuals can be merged and associated into teams and organizations. 
 
 \begin{figure}[ht]
-	\includegraphics[width=\textwidth]{resources/sortinghat_frontend.png}
-	\caption{Sortinhhat frontend (based on \textcite{sortinghat_pic_individuals})} 
+	\includegraphics[width=\textwidth]{resources/sortinghat_dashboard.png}
+	\caption{Sortinhhat frontend (individuals are cencored for privacy reasons)} 
 	\label{fig:sortinghat_frontend}
+\end{figure}
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/sortinghat_individuals.png}
+	\caption{Sortinhhat individuals section (uncencoded) \autocite{sortinghat_pic_individuals}} 
+	\label{fig:sortinghat_frontend_individuals}
 \end{figure}
 
 \subsection{API}
