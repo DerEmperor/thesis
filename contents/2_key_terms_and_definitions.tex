@@ -1,0 +1,25 @@
+\chapter{Key Terms and Definitions}
+\label{chapter:key_terms_and_definitions}
+
+\section{General Data Protection Regulation}
+
+The \ac{DSGVO} (often also abbreviated to DS-GVO) is the german name for the \ac{GDPR}, which is a European Union regulation designed to ensure the protection of personal data and the free flow of data in Europe. It has been mandatory in all EU member states since May 25, 2018, and applies equally to private companies, public authorities, associations, and individuals. The \ac{GDPR} strengthens the rights of EU citizens, as they now enjoy the same legal certainty in all member states and can decide how their own data is processed. For companies, it simplifies cross-border activities through uniform rules of conduct and the so-called “one-stop-shop” procedure, but also provides for substantial fines in the event of violations. While it is directly applicable in all EU member states, individual countries still have their own national data protection laws to supplement it. \autocite{BFDI2025DSGVO}
+
+\section{Pseudonymization}
+
+According to Article 4 No. 5 of the \ac{GDPR}, pseudonymization is defined as the processing of personal data in such a manner that it can no longer be attributed to a specific data subject without the use of additional information. This additional information, often referred to as a "key" for re-identification, must be kept separately and be subject to rigorous technical and organizational measures to ensure that the personal data is not assigned to an identified or identifiable natural person. Crucially, pseudonymization is characterized as a processing operation rather than a static state, involving the active transformation of cleartext data into pseudonyms to mitigate risk while maintaining the utility of the dataset. Because the underlying connection to a natural person is merely obscured rather than permanently severed, pseudonymized data remains classified as "personal data" and thus stays fully within the legal scope and obligations of the \ac{GDPR}.
+ \autocite[8, 21, 71]{gmdsbvd2024praxishilfe}
+ \autocite[14]{schwartmann2022praxisleitfaden}
+
+\section{Anonymization}
+
+
+In contrast, anonymization is the process of transforming personal data into anonymous information so that the data subject is no longer identifiable. While not explicitly defined within the text of the \ac{GDPR} itself, it is recognized as a process that results in data that does not relate to an identified or identifiable natural person. A successful anonymization is fundamentally irreversible; once the process is complete, a re-identification of the individual must be impossible for the controller or any third party. Within the academic and legal discourse, a distinction is often made between "absolute anonymization," where re-identification is factually impossible for everyone, and "factual" or "relative anonymization," where re-identification would require a disproportionate effort in terms of time, cost, and labor. Once data is effectively anonymized, it is no longer considered personal data, and the requirements of the \ac{GDPR} cease to apply.
+\autocite[1, 9, 10, 13, 21, 68, 73]{gmdsbvd2024praxishilfe}
+\autocite[3, 16, 17, 19, 23]{schwartmann2022praxisleitfaden}
+
+\section{Difference Pseudonymization and Anonymization}
+
+The fundamental difference between the two terms lies in the reversibility of the process and the subsequent legal classification of the data. Pseudonymization is a reversible procedure where the link between the data and the individual is preserved via a separate key, meaning the data retains its character as "personal data". Anonymization, however, aims for an irreversible state that permanently breaks this link, thereby removing the data from the regulatory framework of the \ac{GDPR}. Furthermore, pseudonymization requires the controller to implement strict silos and access controls to manage re-identification information, whereas anonymization requires the permanent deletion or sufficient generalization of all direct and indirect identifiers to ensure that no such "key" exists to restore the original identity.
+\autocite[8, 13, 31, 68]{gmdsbvd2024praxishilfe}
+\autocite[3, 19]{schwartmann2022praxisleitfaden}

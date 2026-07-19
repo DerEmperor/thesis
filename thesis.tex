@@ -89,12 +89,12 @@ This work is licensed under the Creative Commons Attribution 4.0 International l
 \makeatother
 
 \chapter*{Abstract}\label{chapter:abstract}
-\input contents/abstract.tex
+\input{contents/abstract.tex}
 
 \ifthenelse{\equal{\thesislanguage}{German}}
   { % true
     \chapter*{Zusammenfassung}\label{chapter:zusammenfassung}
-    \input contents/zusammenfassung.tex
+    \input{contents/zusammenfassung.tex}
   } { %false
   }
 
@@ -111,13 +111,14 @@ This work is licensed under the Creative Commons Attribution 4.0 International l
 \pagenumbering{arabic}
 \headerstylemainsection
 
-\input contents/1_introduction.tex
-\input contents/2_literature_review.tex
-\input contents/3_requirements.tex
-\input contents/4_architecture.tex
-\input contents/5_design_and_implementation.tex
-\input contents/6_evaluation.tex
-\input contents/7_conclusions.tex
+\input{contents/1_introduction.tex}
+\input{contents/2_key_terms_and_definitions.tex}
+\input{contents/3_literature_review.tex}
+\input{contents/4_requirements.tex}
+\input{contents/5_architecture.tex}
+\input{contents/6_design_and_implementation.tex}
+\input{contents/7_evaluation.tex}
+\input{contents/8_conclusions.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
