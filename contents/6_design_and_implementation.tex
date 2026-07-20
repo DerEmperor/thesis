@@ -8,10 +8,16 @@ Chapter \ref{chapter:architecture} described the architecture of the MECOIS proj
 
 Before implementing the service, the approach to the anonymization has to be discussed.
 
-\subsection{Reason for a Anonymization Service}
+\subsection{Reason for an Anonymization Service}
 \label{subsec:reason_for_a_anonymization_service}
 
-problem: Zweckbindung der gespeicherten Daten.
+According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this date for other purposes. There are only a few specific Exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
+
+Since software development tools like Github, Gitlab or Jira contains personal data (e.g. git commit author name or Jira ticket reporter), its use falls under the \ac{GDPR}. In most cases there is no written agreement on how the data can be used, so it can be assumed that the purpose for this data is to help developers organize their work. Generating productivity measurements for indiviual employees would be considered a misuse of the data. \textcite[266--267]{daeubler2017glaeserne} explicitly states that data that consists of operational workflows gathered by electronic systems cannot be used for measuring productivity of individual employees. \autocite[266--267]{daeubler2017glaeserne}
+
+On exception is scientific research. If individuals are part of a scientific research project, their data can be used for this purpose. The data should get pseudonymized or anonymized as fast as possible, in order to minimize the infringement of privacy of the individual members.\autocite[273--274]{daeubler2017glaeserne}
+
+For the MECOIS project this exception is very important regarding the development of the project. As long as MECOIS is a scientific research project, the data can be used to generate productivity measurements as long as the process serves scientific research purposes. But the data still should be pseudonymized or anonymized.
 
 \subsection{Approaches for Pseudonymization}
 \label{subsec:approaches_for_pseudonymization}
