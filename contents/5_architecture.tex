@@ -29,12 +29,12 @@ Figure \ref{fig:MecoIS_GitHub_Structure} displays an overview of all components.
 \subsubsection{Sources}
 \label{subsubsec:sources}
 
-The sources define the origin for the data. Currently we are using Git (Github and Gitlab), Confluence and Jira as source. For Example from Github we pull among other commits, issues and pipelines.
+The sources define the origin for the data. Currently we are using Git (GitHub and GitLab), Confluence and Jira as source. For Example from GitHub we pull among other commits, issues and pipelines.
 
 \subsubsection{Infrastructure}
 \label{subsubsec:infrastructure}
 
-The infrastructure provides the database for the project. The data is stored in a datalake, which is a repository, where data is stored as-is without further structure \autocite{datalake_aws}. Each set of data passes through 4 Stages: raw, bronze, silver, gold.
+The infrastructure provides the database for the project. The data is stored in a data lake, which is a repository, where data is stored as-is without further structure \autocite{datalake_aws}. Each set of data passes through 4 Stages: raw, bronze, silver, gold.
 
 \subsubsection{Pipeline}
 \label{subsubsec:pipeline}
@@ -62,20 +62,20 @@ Services are helper modules for pipelines and analytics. Such helper modules are
 	\item config handling: Parses configuration files for pipelines.
 \end{itemize}
 
-\subsubsection{Fron tend}
+\subsubsection{Front end}
 \label{subsubsec:front_end}
 
-The front end provides a Dashboard for the user-facing components of MECOIS. Figure \ref{fig:mecois_frontend_explorer} shows the Data Explorer tool, where users can examine the data in the datalake. Figure \ref{fig:mecois_frontend_extractor} presents the Data Extractor tool, that can be used to query data from the sources and feed it to the pipelines.
+The front end provides a Dashboard for the user-facing components of MECOIS. Figure \ref{fig:mecois_frontend_explorer} shows the Data Explorer tool, where users can examine the data in the data lake. Figure \ref{fig:mecois_frontend_extractor} presents the Data Extractor tool, that can be used to query data from the sources and feed it to the pipelines.
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{resources/mecois_frontend_explorer.png}
-	\caption{Dataflow} 
+	\caption{MECOIS Frontend Data Explorer} 
 	\label{fig:mecois_frontend_explorer}
 \end{figure}
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{resources/mecois_frontend_extractor.png}
-	\caption{Dataflow} 
+	\caption{MECOIS Frontend Data Extractor} 
 	\label{fig:mecois_frontend_extractor}
 \end{figure}
 
@@ -84,31 +84,31 @@ The front end provides a Dashboard for the user-facing components of MECOIS. Fig
 
 The orchestrators can be used to run the pipeline. The set up the configuration and run the pipeline for the selected sources.
 
-\subsection{Dataflow}
+\subsection{Data Flow}
 \label{subsec:dataflow}
 
-After pulling the source the raw data is stored exactly as provided as JSON. In the datalake the Data is processed multiple times and the states are called bronze, silver and gold. The processing is done by the pipelines.
+After pulling the source the raw data is stored exactly as provided as JSON. In the data lake the Data is processed multiple times and the states are called bronze, silver and gold. The processing is done by the pipelines.
 
  Each pipeline hast 3 steps:
  
  \begin{enumerate}
- 	\item Read the data from the datalake
+ 	\item Read the data from the data lake
  	\item transform data
- 	\item write the transformed data to the datalake
+ 	\item write the transformed data to the data lake
  \end{enumerate}
 
 Figure \ref{fig:dataflow} displays an overview of all components. \autocite{github_mecois}
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{resources/MecoIS_Pipeline_Structure_Simple.png}
-	\caption{Dataflow \autocite{github_mecois}} 
+	\caption{Data flow \autocite{github_mecois}} 
 	\label{fig:dataflow}
 \end{figure}
 
 \subsubsection{JSON to Bronze}
 \label{subsubsec:json2bronze}
 
-The \texttt{JSONtoBronzePipeline} processes the raw JSON data provided by the sources and writes it unchanged to the Datalake. The data itself isn't changed in any way. Each source has an own table.
+The \texttt{JSONtoBronzePipeline} processes the raw JSON data provided by the sources and writes it unchanged to the Data lake. The data itself isn't changed in any way. Each source has an own table.
 
 \subsubsection{Bronze to Silver}
 \label{subsubsec:bronze2silver}
@@ -117,11 +117,11 @@ The \texttt{BronzetoSilverPipeline} processes the bronze data in multiple steps 
 
 \paragraph{Flatten table} 
 
-The bronze state cannot represent nested data. (e.g. a Github commit contains an autor and the author itself has multiple properties). In the first step those nested data in columns is split in multiple columns, so that each on only contains a single datapoint. 
+The bronze state cannot represent nested data. (e.g. a GitHub commit contains an author and the author itself has multiple properties). In the first step those nested data in columns is split in multiple columns, so that each on only contains a single data point. 
 
 \paragraph{Drop irrelevant columns}
 
-Not all data is useful. Some columns (e.g. the URL to the avatar of a Github user) are dropped. 
+Not all data is useful. Some columns (e.g. the URL to the avatar of a GitHub user) are dropped. 
 
 \paragraph{Fix dates}
 
@@ -138,7 +138,7 @@ Each table has a way to create an \ac{UUID} by concatenating some columns and ha
 \subsubsection{Silver to Silver}
 \label{subsubsec:silver2silver}
 
-Identeties may update in the identity mangement system. The \texttt{UpdateIdentityPipeline} updates any identeties in the datalake that have been updated in the Sortinghat.
+Identities may update in the identity management system. The \texttt{UpdateIdentityPipeline} updates any identities in the data lake that have been updated in the SortingHat.
 
 \subsubsection{Silver to Gold}
 \label{subsubsec:silver2gold}
@@ -159,7 +159,7 @@ It provides a client library for sending data and requesting identities.
 \section{Identity Management System}
 \label{sec:identity_management_system}
 
-The identity management system is reponsible for storing all information about individuals. The project is using the tool Sortinghat from the toolset GrimoireLab by CHAOSS. This application is provided under the GPL-3.0 license.
+The identity management system is responsible for storing all information about individuals. The project is using the tool SortingHat from the tool set GrimoireLab by CHAOSS. This application is provided under the GPL-3.0 license.
 
 One individual my have multiple identities on different platforms. The system can pool these different accounts into one individual. These individuals can also be grouped into teams. Multiple teams can form an organization.  \autocite{sortinghat} \autocite{sortinghat_repo}
 
@@ -176,7 +176,7 @@ Figure \ref{fig:sortinghat_uml_diagram} describes how identities are manages in 
 \subsection{Front end Dashboard}
 \label{subsubsec:front_end_dashboard}
 
-The Sortinghat provides a dashboard, where individuals can be merged and associated into teams and organizations.
+The SortingHat provides a dashboard, where individuals can be merged and associated into teams and organizations.
 
 Figure \ref{fig:sortinghat_frontend} shows a screenshot of the front end. Since the screenshot contains real data, the individuals are blacked out. The individuals section can be seen in figure \ref{fig:sortinghat_frontend_individuals}.
 
@@ -188,13 +188,13 @@ Figure \ref{fig:sortinghat_frontend} shows a screenshot of the front end. Since 
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{resources/sortinghat_individuals.png}
-	\caption{Sortinhhat individuals section (uncencoded) \autocite{sortinghat_pic_individuals}} 
+	\caption{SortingHat individuals section (uncensored) \autocite{sortinghat_pic_individuals}} 
 	\label{fig:sortinghat_frontend_individuals}
 \end{figure}
 
 \subsection{API}
 \label{subsubsec:api}
 
-The Sortinghat also provided an API for automating interactions, like listing, updating and deleting individuals.
+The SortingHat also provided an API for automating interactions, like listing, updating and deleting individuals.
 
 

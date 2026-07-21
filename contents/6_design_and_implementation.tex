@@ -3,23 +3,18 @@
 
 Chapter \ref{chapter:architecture} described the architecture of the MECOIS project and the integration of the anonymization service. This chapter will explain how the service is implemented.
 
-\section{Compliance with Data Protection Laws}
-\label{sec:compliance_with_data_protection_laws}
-
-Before implementing the service, the approach to the anonymization has to be discussed.
-
-\subsection{Reason for an Anonymization Service}
-\label{subsec:reason_for_a_anonymization_service}
+\section{Reason for an Anonymization Service}
+\label{sec:reason_for_a_anonymization_service}
 
 According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this date for other purposes. There are only a few specific Exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
 
-\subsubsection{purpose limitation}
+\subsection{Purpose Limitation}
 
-Since software development tools like Github, Gitlab or Jira contains personal data (e.g. git commit author name or Jira ticket reporter), its use falls under the \ac{GDPR}. In most cases there is no written agreement on how the data can be used, so it can be assumed that the purpose for this data is to help developers organize their work. Generating productivity measurements for indiviual employees would be considered a misuse of the data. \textcite[266--267]{daeubler2017glaeserne} explicitly states that data that consists of operational workflows gathered by electronic systems cannot be used for measuring productivity of individual employees. \autocite[266--267]{daeubler2017glaeserne}
+Since software development tools like GitHub, GitLab or Jira contains personal data (e.g. git commit author name or Jira ticket reporter), its use falls under the \ac{GDPR}. In most cases there is no written agreement on how the data can be used, so it can be assumed that the purpose for this data is to help developers organize their work. Generating productivity measurements for individual employees would be considered a misuse of the data. \textcite[266--267]{daeubler2017glaeserne} explicitly states that data that consists of operational workflows gathered by electronic systems cannot be used for measuring productivity of individual employees. \autocite[266--267]{daeubler2017glaeserne}
 
 One exception is scientific research. If individuals are part of a scientific research project, their data can be used for this purpose. The data should get pseudonymized or anonymized as fast as possible, in order to minimize the infringement of privacy of the individual members.\autocite[273--274]{daeubler2017glaeserne}
 
-\subsubsection{Anonymized Data}
+\subsection{Anonymized Data}
 
 The \ac{BDSG} only applies to personal Data, which is defined in Section 3 (1): Personal data consists of specific information about the personal or factual circumstances of an identified or identifiable natural person (data subject). \autocite[69]{daeubler2017glaeserne}
 
@@ -27,22 +22,169 @@ The \ac{DSGVO} has an similar approach. In Article 4(1) it defines personal data
 
 Unlike anonymized data, where re-identification is impossible, pseudonymized data is still traceable to the original person. therefore pseudonymized data has to comply with the \ac{DSGVO} and \ac{BDSG}. Anonymized data is not mentioned in the \ac{DSGVO} because, since it does not relate to specific individuals, it is not subject to the \ac{DSGVO}. \autocite[69]{daeubler2017glaeserne}
 
-\subsubsection{Consequences for MECOIS}
+\subsection{Consequences for MECOIS}
 
 For the MECOIS project the exception for scientific research is very important regarding the development of the project. As long as MECOIS is a scientific research project, the data can be used to generate productivity measurements as long as the process serves scientific research purposes. But the data still should be pseudonymized or anonymized.
 
-Regarding the final product, MECOIS must anonymize the Data. Otherwise it is illeagal to produce productivity metrics.
+Regarding the final product, MECOIS must anonymize the Data. Otherwise it is illegal to produce productivity metrics.
 
-\subsection{Approaches for Pseudonymization}
-\label{subsec:approaches_for_pseudonymization}
+\section{Identifying Identifiers}
 
-\subsection{Approaches for Anonymization}
-\label{subsec:approaches_for_anonymization}
+The identification and categorization of identifiers is a fundamental prerequisite for implementing effective data protection measures, such as pseudonymization or anonymization. Attributes within a data set are typically classified into three categories: direct identifiers, indirect (or quasi-) identifiers, and sensitive attributes.
+\autocite[87--88, 131--132]{Krebs2022}
+\autocite[9--10]{schwartmann2022praxisleitfaden}
+\autocite[37]{gmdsbvd2024praxishilfe}
 
-\subsection{Deciding on an Approach}
+\paragraph{Direct Identifiers}
+
+Direct identifiers, such as civil names, social security numbers, or email addresses, allow for the immediate identification of a natural person without further processing.
+\autocite[87--88]{Krebs2022}
+\autocite[37, 71]{gmdsbvd2024praxishilfe}
+
+\paragraph{Indirect Identifiers}
+
+Indirect identifiers include data points like birth dates, ZIP codes, or rare job titles that do not identify a person in isolation but can lead to identification when combined with external datasets or background knowledge — a risk often termed "singling out".
+\autocite[87--88]{Krebs2022}
+\autocite[5, 13]{schwartmann2022praxisleitfaden}
+\autocite[37]{gmdsbvd2024praxishilfe}
+
+\paragraph{Sensitive Attributes}
+
+Sensitive attributes, such as the special categories of data protected under Article 9 of the \ac{GDPR} (e.g., genetic or health data), require the highest level of protection due to the potential for discrimination and significant impact on individual freedoms.
+\autocite[131--133]{Krebs2022}
+\autocite[8, 24--25]{gmdsbvd2024praxishilfe}
+
+Ultimately, the classification of any specific data point is context-dependent, as even non-identifying data may become identifying depending on the "reasonable" means and background information available to a potential attacker. 
+\autocite[36--37, 54]{gmdsbvd2024praxishilfe}
+
+\paragraph{Example GitHub Commit}
+
+In the context of GitHub commits, direct identifiers are: names and emails of author and committer. Since every employee has access to the GitHub repositories, indirect identifiers like the commit message (including the timestamp), ids and specific URLs can be easily resolved to the involved persons. Sensitive attributes are not present in GitHub.
+
+\section{Approaches for Pseudonymization and Anonymization}
+\label{sec:approaches}
+
+Techniques for pseudonymization and anonymization are categorized based on their technical approach and the type of data they address.
+
+\subsection{Pseudonymization Techniques}
+Pseudonymization involves replacing identifiers with surrogates so that the data cannot be attributed to a specific person without additional information stored separately.
+
+\paragraph{Masking and Replacement}
+Direct identifiers are replaced with constant values, characters, or placeholders (e.g., replacing "Max Muster" with "Person A").
+
+\paragraph{Shuffling (Mixing)}
+Values within a column are swapped or rearranged across different records through random distribution to remove the link between attributes and specific individuals.
+
+\paragraph{Variance Method}
+For quantitative data, numerical values are altered by adding random deviations within a specified range while maintaining overall statistical distribution.
+
+\paragraph{Cryptographic Encryption}
+Identifiers are transformed using a secret key, making the process reversible for authorized parties who hold the key.
+
+\paragraph{Hashing}
+A one-way mathematical function maps identifiers to a fixed-length string (hash value); techniques like adding Salt or Pepper (random characters) are used to prevent brute-force or rainbow table attacks.
+
+\paragraph{Tokenization}
+Often used in the financial sector, this replaces sensitive identifiers like card IDs with randomly generated tokens.
+
+\subsection{Anonymization Techniques for Structured Data}
+
+Anonymization aims to permanently remove the connection between data and a natural person, making re-identification practically impossible.
+
+\subsubsection{Randomization (Perturbation)}
+These methods distort attribute values to decrease the probability of identifying individuals from a dataset.
+
+\paragraph{Stochastic Overlay}
+Merkmale are altered with random variables so that the specific values are less accurate but general distribution is preserved.
+
+\paragraph{Swapping}
+Attribute values are shifted between different data records, which is particularly effective when combined with the removal of quasi-identifiers.
+
+\paragraph{Falsification (Noise Addition)}
+Artificial statistical noise is added to some or all data points to prevent reliable estimation of an individual's original values.
+
+\paragraph{Microaggregation (Clustering)}
+Data records are grouped by similarity, and their values are replaced by a representative average (e.g., mean or median) for that group.
+
+\subsubsection{Generalization}
+These non-perturbative methods reduce the granularity of the data to hide individuals within groups.
+
+\paragraph{Aggregation}
+Summarizing individual values into larger units or categories.
+
+\paragraph{Recoding}
+Grouping values into intervals (e.g., changing exact ages to age ranges like "20-30") or higher-level categories.
+
+\paragraph{Suppression}
+Specific values, cells, or entire columns are deleted or replaced with a special suppression value to eliminate outliers or highly identifying information.
+
+\subsubsection{Anonymity Models and Criteria}
+These models define thresholds for the degree of protection achieved after applying technical methods.
+
+\paragraph{k-Anonymity}
+Ensures that every individual record is indistinguishable from at least k-1 other records based on its quasi-identifiers.
+
+\paragraph{l-Diversity}
+Extends k-Anonymity by ensuring there is sufficient variety in the sensitive attributes within each group of indistinguishable records to prevent attribute disclosure.
+
+\paragraph{t-Closeness}
+Refines l-Diversity by requiring that the distribution of a sensitive attribute in any group is close to the distribution of that attribute in the overall population.
+
+\paragraph{δ-Presence}
+Limits the probability that an attacker can determine whether a specific person is present in a private dataset by comparing it with a publicly available one.
+
+\subsubsection{Advanced and KI-Based Methods}
+
+\paragraph{Differential Privacy}
+A mathematical framework that adds controlled statistical noise to query results or base data, ensuring that the presence or absence of a single individual does not significantly affect the outcome.
+
+\paragraph{Data Synthesis}
+Statistical models or Generative Adversarial Networks (GANs) are used to create artificial datasets that reflect the properties of the original data without including real personal identifiers.
+
+\paragraph{Semantic Anonymization}
+Uses active ontologies and inferencing to transform data semantically while preserving its analytical value.
+
+\paragraph{Federated Machine Learning}
+AI models are trained locally on decentralized data sources, and only non-personal model parameters are transmitted to a central coordinator.
+
+\subsubsection{Techniques for Unstructured Data}
+
+\paragraph{Metadata Removal}
+Deleting fields in file formats like PDF or DICOM (medical imaging) that contain authors, dates, or study IDs.
+
+\paragraph{Natural Language Processing (NLP)}
+Automatically identifying and masking entities like names, locations, or companies in free text.
+
+\paragraph{Paraphrasing}
+Replacing identifying phrases with generic descriptions while preserving the document's readability.
+
+\paragraph{Author Obfuscation}
+Masking an author's unique writing style using neural translation methods like A4NT.
+
+\paragraph{Multimedia Processing}
+Techniques for images and video include pixelation (mosaic), blurring (Gaussian filters), black bars, kanting (outlining), and the use of digital avatars.
+
+
+
+
+
+
+
+
+
+
+
+\section{Deciding on an Approach}
 \label{subsec:deciding_on_an_approach}
 
-\section{Anonymization Server}
+Sortinghat benutzt hashlib.sha1
+Das ist ein Problem, da der algorithmus veraltet ist
+Sources:
+sortinghat repo
+https://auth0.com/blog/sha-1-collision-attack/
+\url{https://docs.python.org/3/library/hashlib.html#hashlib.sha1}
+
+\section{Implementing the Anonymization Server}
 \label{sec:anonymization_server}
 
 \subsection{Implementing the Server}
