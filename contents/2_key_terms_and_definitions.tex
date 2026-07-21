@@ -1,17 +1,27 @@
 \chapter{Key Terms and Definitions}
 \label{chapter:key_terms_and_definitions}
 
-\section{General Data Protection Regulation}
+\section{German Privacy Laws}
 
-The \ac{DSGVO} (often also abbreviated to DS-GVO) is the german name for the \ac{GDPR}, which is a European Union regulation designed to ensure the protection of personal data and the free flow of data in Europe. It has been mandatory in all EU member states since May 25, 2018, and applies equally to private companies, public authorities, associations, and individuals. The \ac{GDPR} strengthens the rights of EU citizens, as they now enjoy the same legal certainty in all member states and can decide how their own data is processed. For companies, it simplifies cross-border activities through uniform rules of conduct and the so-called “one-stop-shop” procedure, but also provides for substantial fines in the event of violations. While it is directly applicable in all EU member states, individual countries still have their own national data protection laws to supplement it. \autocite{BFDI2025DSGVO}
+In Germany data privacy is regulated in two laws: The \ac{DSGVO} and the \ac{BDSG}.
 
-Some parts of the \ac{GDPR} can be changed or complemented by the states. Germany added the \ac{BDSG} (englisch Federal Data Protection Act) to the \ac{DSGVO} to expand the mandatory regulations.
+\subsection{General Data Protection Regulation}
+
+The \ac{DSGVO} (often also abbreviated to DS-GVO) is the German name for the \ac{GDPR}, which is a European Union regulation designed to ensure the protection of personal data and the free flow of data in Europe. It has been mandatory in all EU member states since May 25, 2018, and applies equally to private companies, public authorities, associations, and individuals. The \ac{GDPR} strengthens the rights of EU citizens, as they now enjoy the same legal certainty in all member states and can decide how their own data is processed. For companies, it simplifies cross-border activities through uniform rules of conduct and the so-called “one-stop-shop” procedure, but also provides for substantial fines in the event of violations. While it is directly applicable in all EU member states, individual countries still have their own national data protection laws to supplement it. \autocite{BFDI2025DSGVO}
+
+\subsection{Federal Data Protection Act}
+
+Germany passed its own privacy laws in 1977 called the . It had to be revised upon the adoption of the \ac{GDPR}. Today the \ac{BDSG} and \ac{DSGVO} complement each other, since the \ac{GDPR} has escape clauses, where the \ac{BDSG} steps in. This applies, for example, to the processing of employee data or the establishment of supervisory authorities.
 \autocite{BFDI2025DSGVO}
 \autocite[68--70]{daeubler2017glaeserne}
 
+\section{Pseudonymization and Anonymization}
+
+To comply with the data privacy laws, data often has to be pseudonymized or anonymized.
+
 \section{Pseudonymization}
 
-According to Article 4 No. 5 of the \ac{GDPR}, pseudonymization is defined as the processing of personal data in such a manner that it can no longer be attributed to a specific data subject without the use of additional information. This additional information, often referred to as a "key" for re-identification, must be kept separately and be subject to rigorous technical and organizational measures to ensure that the personal data is not assigned to an identified or identifiable natural person. Crucially, pseudonymization is characterized as a processing operation rather than a static state, involving the active transformation of cleartext data into pseudonyms to mitigate risk while maintaining the utility of the dataset. Because the underlying connection to a natural person is merely obscured rather than permanently severed, pseudonymized data remains classified as "personal data" and thus stays fully within the legal scope and obligations of the \ac{GDPR}.
+According to Article 4 No. 5 of the \ac{GDPR}, pseudonymization is defined as the processing of personal data in such a manner that it can no longer be attributed to a specific data subject without the use of additional information. This additional information, often referred to as a "key" for re-identification, must be kept separately and be subject to rigorous technical and organizational measures to ensure that the personal data is not assigned to an identified or identifiable natural person. Crucially, pseudonymization is characterized as a processing operation rather than a static state, involving the active transformation of cleartext data into pseudonyms to mitigate risk while maintaining the utility of the data set. Because the underlying connection to a natural person is merely obscured rather than permanently severed, pseudonymized data remains classified as "personal data" and thus stays fully within the legal scope and obligations of the \ac{GDPR}.
  \autocite[8, 21, 71]{gmdsbvd2024praxishilfe}
  \autocite[14]{schwartmann2022praxisleitfaden}
 

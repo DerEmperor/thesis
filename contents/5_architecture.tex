@@ -62,10 +62,22 @@ Services are helper modules for pipelines and analytics. Such helper modules are
 	\item config handling: Parses configuration files for pipelines.
 \end{itemize}
 
-\subsubsection{Frontend}
-\label{subsubsec:frontend}
+\subsubsection{Fron tend}
+\label{subsubsec:front_end}
 
-The frontend provides a Dashboard for the user-facing components of MECOIS.
+The front end provides a Dashboard for the user-facing components of MECOIS. Figure \ref{fig:mecois_frontend_explorer} shows the Data Explorer tool, where users can examine the data in the datalake. Figure \ref{fig:mecois_frontend_extractor} presents the Data Extractor tool, that can be used to query data from the sources and feed it to the pipelines.
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/mecois_frontend_explorer.png}
+	\caption{Dataflow} 
+	\label{fig:mecois_frontend_explorer}
+\end{figure}
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/mecois_frontend_extractor.png}
+	\caption{Dataflow} 
+	\label{fig:mecois_frontend_extractor}
+\end{figure}
 
 \subsubsection{Orchestrators}
 \label{subsubsec:orchestrators}
@@ -161,16 +173,16 @@ One individual my have multiple identities on different platforms. The system ca
 
 Figure \ref{fig:sortinghat_uml_diagram} describes how identities are manages in the SortingHat. One individual my have multiple identities on different platforms. The system can pool these different accounts into one individual. One Individual hat an \ac{UUID} and is linked to profile containing personal information. These individuals can also be grouped into organizations.  \autocite{sortinghat} \autocite{sortinghat_repo}
 
-\subsection{Frontend Dashboard}
+\subsection{Front end Dashboard}
 \label{subsubsec:front_end_dashboard}
 
 The Sortinghat provides a dashboard, where individuals can be merged and associated into teams and organizations.
 
-Figure \ref{fig:sortinghat_frontend} shows a screenshot of the frontend. Since the screenshot contains real data, the individuals are blacked out. The individuals section can be seen in figure \ref{fig:sortinghat_frontend_individuals}.
+Figure \ref{fig:sortinghat_frontend} shows a screenshot of the front end. Since the screenshot contains real data, the individuals are blacked out. The individuals section can be seen in figure \ref{fig:sortinghat_frontend_individuals}.
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{resources/sortinghat_dashboard.png}
-	\caption{SortingHat frontend (individuals are cencored for privacy reasons)} 
+	\caption{SortingHat front end (individuals are censored for privacy reasons)} 
 	\label{fig:sortinghat_frontend}
 \end{figure}
 
