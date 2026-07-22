@@ -23,6 +23,7 @@ The \ac{DSGVO} has an similar approach. In Article 4(1) it defines personal data
 Unlike anonymized data, where re-identification is impossible, pseudonymized data is still traceable to the original person. therefore pseudonymized data has to comply with the \ac{DSGVO} and \ac{BDSG}. Anonymized data is not mentioned in the \ac{DSGVO} because, since it does not relate to specific individuals, it is not subject to the \ac{DSGVO}. \autocite[69]{daeubler2017glaeserne}
 
 \subsection{Consequences for MECOIS}
+\label{subsec:consequences_for_mecois}
 
 For the MECOIS project the exception for scientific research is very important regarding the development of the project. As long as MECOIS is a scientific research project, the data can be used to generate productivity measurements as long as the process serves scientific research purposes. But the data still should be pseudonymized or anonymized.
 
@@ -214,15 +215,18 @@ Multimedia processing techniques are specialized methods used to obscure persona
 \autocite[112--117]{Krebs2022}
 \autocite[64--65]{gmdsbvd2024praxishilfe}
 
+\section{The Risk of Re-Idendification}
+
+There is no fixed, universally applicable threshold that, once met, automatically renders data anonymous; instead, anonymization is a contextual state determined by a "reasonability test". Because absolute anonymization — where re-identification is impossible under any circumstances — is considered practically unachievable and is not legally required, the focus is on whether identification is unlikely or requires a disproportionate effort in terms of time, cost, and manpower. Consequently, rather than relying on a static limit, researchers must perform a comprehensive risk assessment that considers the specific data environment, the intended use-case (such as internal analysis versus public release), and the likely means available to a potential attacker. This evaluation should be formalized in a risk report or "attacker model" that documents the chosen transformation methods, identifies potential re-identification scenarios like "singling out" or "linkage attacks," and quantifies the remaining residual risk. Under the accountability principle of the \ac{GDPR}, this systematic process of evaluation and documentation is essential to demonstrate that the risk to the rights and freedoms of individuals has been effectively mitigated.
+\autocite[120, 124--132]{Krebs2022}
+\autocite[18--19, 55, 60--61, 68--71]{gmdsbvd2024praxishilfe}
+\autocite[5--6, 17, 25--26, 28--29, 60--61]{schwartmann2022praxisleitfaden}
+
+
 \section{Deciding on an Approach}
 \label{subsec:deciding_on_an_approach}
 
-Sortinghat benutzt hashlib.sha1
-Das ist ein Problem, da der algorithmus veraltet ist
-Sources:
-sortinghat repo
-https://auth0.com/blog/sha-1-collision-attack/
-\url{https://docs.python.org/3/library/hashlib.html#hashlib.sha1}
+Direct identifiers should be pseudonymized by hashing them into deterministic \acp{UUID}. To achieve k-anonymity, data points can be aggregated according to the organizational hierarchy, specifically by grouping employees into their respective teams. However, indirect identifiers, such as Git commit messages, still present a re-identification risk depending on the specific metrics being analyzed; in a worst-case scenario, these messages must be completely removed. Finally, re-identification risks associated with timestamps can be mitigated by injecting temporal noise.
 
 \section{Implementing the Anonymization Server}
 \label{sec:anonymization_server}
@@ -230,15 +234,18 @@ https://auth0.com/blog/sha-1-collision-attack/
 \subsection{Implementing the Server}
 \label{subsec:implementing_the_server}
 
-\subsection{Implementing the Pseudonymization}
-\label{subsec:implementing_the_pseudonymization}
+TODO
 
-TODO: überschrift mit der eigentlichen Methode austauschen
+\subsection{Implementing the Pseudonymization}
+
+Identity management is handled by SortingHat, which assigns a \ac{UUID} to each identity. The anonymization service subsequently replaces all direct identifiers — specified via a configuration file — with this assigned \ac{UUID}. 
+
+SortingHat generates the \ac{UUID} by hashing the user's name, email address, and username using Python's \texttt{hashlib.sha1} module \autocite{sortinghat_repo}. However, this approach presents cryptographic vulnerabilities: SHA-1 is susceptible to hash collisions, lacks resistance to brute-force attacks, and does not support salting \autocite{python_hashlib_2026}. Despite these security limitations, SortingHat's native \ac{UUID} mechanism is retained during the current development phase due to its implementation simplicity, with a cryptographically secure scheme planned for future iterations.
 
 \subsection{Implementing the Anonymization}
-\label{subsec:implementing_the_anonymization}
 
-TODO: überschrift mit der eigentlichen Methode austauschen
+SortingHat supports associating individuals with specific enrollments, where an enrollment is defined by a start timestamp, an end timestamp, and an organization. This capability is leveraged to enrich the DataFrame with an additional column representing each individual's organizational affiliation.
+
 
 \subsection{Deploying the Server}
 \label{subsec:deploying_the_server}
