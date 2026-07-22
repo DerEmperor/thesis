@@ -28,6 +28,7 @@ For the MECOIS project the exception for scientific research is very important r
 
 Regarding the final product, MECOIS must anonymize the Data. Otherwise it is illegal to produce productivity metrics.
 
+
 \section{Identifying Identifiers}
 
 The identification and categorization of identifiers is a fundamental prerequisite for implementing effective data protection measures, such as pseudonymization or anonymization. Attributes within a data set are typically classified into three categories: direct identifiers, indirect (or quasi-) identifiers, and sensitive attributes.
@@ -43,7 +44,7 @@ Direct identifiers, such as civil names, social security numbers, or email addre
 
 \paragraph{Indirect Identifiers}
 
-Indirect identifiers include data points like birth dates, ZIP codes, or rare job titles that do not identify a person in isolation but can lead to identification when combined with external datasets or background knowledge — a risk often termed "singling out".
+Indirect identifiers or quasi-identifiers include data points like birth dates, ZIP codes, or rare job titles that do not identify a person in isolation but can lead to identification when combined with external datasets or background knowledge — a risk often termed "singling out".
 \autocite[87--88]{Krebs2022}
 \autocite[5, 13]{schwartmann2022praxisleitfaden}
 \autocite[37]{gmdsbvd2024praxishilfe}
@@ -61,118 +62,157 @@ Ultimately, the classification of any specific data point is context-dependent, 
 
 In the context of GitHub commits, direct identifiers are: names and emails of author and committer. Since every employee has access to the GitHub repositories, indirect identifiers like the commit message (including the timestamp), ids and specific URLs can be easily resolved to the involved persons. Sensitive attributes are not present in GitHub.
 
+
 \section{Approaches for Pseudonymization and Anonymization}
 \label{sec:approaches}
 
 Techniques for pseudonymization and anonymization are categorized based on their technical approach and the type of data they address.
 
+The boundary between pseudonymization and anonymization is fundamentally fluid because the technical methods used — such as masking, shuffling, or the variance method — are often identical for both processes. Technically, these randomization and transformation techniques serve as common building blocks; the legal and practical classification of the resulting data depends on the management of "additional information" and the context of the data environment. For instance, a method like masking is classified as pseudonymization if the researcher retains a secure mapping table to restore the original identifiers, but it becomes anonymization if that key is irreversibly destroyed. This status remains dynamic rather than absolute, as the availability of new external datasets or advances in analytical power can enable the re-identification of data previously considered anonymous. Consequently, the transition between these two states depends heavily on the "reasonability test", where data is only truly anonymous if re-identification is either factually impossible or requires a disproportionate effort in terms of time, cost, and manpower.
+\autocite[3--4]{schwartmann2022praxisleitfaden}
+\autocite[44--45, 55, 68, 71]{gmdsbvd2024praxishilfe}
+\autocite[77--80]{Krebs2022}
+
+
 \subsection{Pseudonymization Techniques}
 Pseudonymization involves replacing identifiers with surrogates so that the data cannot be attributed to a specific person without additional information stored separately.
+\autocite[71, 77]{Krebs2022}
 
 \paragraph{Masking and Replacement}
-Direct identifiers are replaced with constant values, characters, or placeholders (e.g., replacing "Max Muster" with "Person A").
+Direct identifiers are replaced with constant values, characters, or placeholders (e.g., replacing "John Doe" with "Person A" or setting the birthday to the first of January).
+\autocite[77-80]{Krebs2022}
+\autocite[40, 44]{gmdsbvd2024praxishilfe}
 
 \paragraph{Shuffling (Mixing)}
-Values within a column are swapped or rearranged across different records through random distribution to remove the link between attributes and specific individuals.
+Values within a column are swapped or rearranged across different records through random distribution to remove the link between attributes and specific individuals. Direct identifiers have to be pseudonymized with another technique, to prevent users from unshuffling the data, by connecting direct identifiers.
+\autocite[77-80]{Krebs2022}
+\autocite[41]{gmdsbvd2024praxishilfe}
 
 \paragraph{Variance Method}
-For quantitative data, numerical values are altered by adding random deviations within a specified range while maintaining overall statistical distribution.
+For quantitative data, numerical values (e .g ages or dates) are altered by adding random deviations within a specified range while maintaining overall statistical distribution. 
+\autocite[77-80]{Krebs2022}
+\autocite[42]{gmdsbvd2024praxishilfe}
 
-\paragraph{Cryptographic Encryption}
-Identifiers are transformed using a secret key, making the process reversible for authorized parties who hold the key.
-
-\paragraph{Hashing}
-A one-way mathematical function maps identifiers to a fixed-length string (hash value); techniques like adding Salt or Pepper (random characters) are used to prevent brute-force or rainbow table attacks.
+\paragraph{Cryptographic Encryption and Hashing}
+Cryptographic methods, specifically encryption and hashing, are essential technical measures for the pseudonymization of personal data, as they replace direct identifiers with secure surrogates. Encryption involves transforming identifiers using a secret key, making the process reversible only for authorized parties who possess that key. In contrast, hashing utilizes a one-way mathematical function to map identifiers to a fixed-length string, which is inherently designed to be non-invertible. While hashing provides a more robust barrier against re-identification than simple masking, raw hash values remain vulnerable to brute-force or rainbow table attacks if an attacker can guess the range of original inputs. To mitigate this risk, it is critical to implement a "salt," which is a random sequence of characters appended to the original data before it is hashed. The use of a salt significantly increases the entropy of the input, ensuring that the resulting hash is not easily predictable and preventing attackers from using precomputed tables to reverse the transformation.
+\autocite[77-80]{Krebs2022}
+\autocite[13, 42--44, 84]{gmdsbvd2024praxishilfe}
 
 \paragraph{Tokenization}
 Often used in the financial sector, this replaces sensitive identifiers like card IDs with randomly generated tokens.
+\autocite[77-80]{Krebs2022}
+
 
 \subsection{Anonymization Techniques for Structured Data}
 
 Anonymization aims to permanently remove the connection between data and a natural person, making re-identification practically impossible.
+\autocite[73--75]{Krebs2022}
+
+\paragraph{Structured Data}
+
+Structured data refers to information that is organized according to a fixed schema or predefined format, ensuring that its content and meaning are clearly and uniquely determinable. It is fundamentally understood through a "Key-Value" representation, where the "Key" assigns specific meaning (e.g., "First Name") and the "Value" contains the actual content (e.g., "Anne"). In practice, this data is typically stored in tabular formats like spreadsheets or relational databases, where each row represents an individual data record and each column defines a specific attribute with a fixed data type, such as numeric values, categorical lists, or qualitative ratings. This rigid organization makes structured data highly searchable and suitable for systematic processing by automated analysis tools.
+\autocite[45--46]{Krebs2022}
+\autocite[11--12]{schwartmann2022praxisleitfaden}
+
 
 \subsubsection{Randomization (Perturbation)}
 These methods distort attribute values to decrease the probability of identifying individuals from a dataset.
+\autocite[83--86]{Krebs2022}
 
 \paragraph{Stochastic Overlay}
-Merkmale are altered with random variables so that the specific values are less accurate but general distribution is preserved.
+Characteristics are altered with random variables so that the specific values are less accurate but general distribution is preserved.
+\autocite[84]{Krebs2022}
+\autocite[31]{schwartmann2022praxisleitfaden}
 
 \paragraph{Swapping}
-Attribute values are shifted between different data records, which is particularly effective when combined with the removal of quasi-identifiers.
+A special form of stochastic overlay is swapping, where attribute values are shifted between different data records, which is particularly effective when combined with the removal of quasi-identifiers.
+\autocite[84--85]{Krebs2022}
+\autocite[31]{schwartmann2022praxisleitfaden}
 
 \paragraph{Falsification (Noise Addition)}
 Artificial statistical noise is added to some or all data points to prevent reliable estimation of an individual's original values.
+\autocite[85--86]{Krebs2022}
+\autocite[36]{schwartmann2022praxisleitfaden}
 
 \paragraph{Microaggregation (Clustering)}
 Data records are grouped by similarity, and their values are replaced by a representative average (e.g., mean or median) for that group.
+\autocite[86]{Krebs2022}
 
-\subsubsection{Generalization}
-These non-perturbative methods reduce the granularity of the data to hide individuals within groups.
 
-\paragraph{Aggregation}
-Summarizing individual values into larger units or categories.
+\subsubsection{Generalization and Aggregation}
 
-\paragraph{Recoding}
-Grouping values into intervals (e.g., changing exact ages to age ranges like "20-30") or higher-level categories.
-
-\paragraph{Suppression}
-Specific values, cells, or entire columns are deleted or replaced with a special suppression value to eliminate outliers or highly identifying information.
-
-\subsubsection{Anonymity Models and Criteria}
-These models define thresholds for the degree of protection achieved after applying technical methods.
+Generalization and aggregation are the technical pillars for implementing formal anonymity models in structured data. Generalization involves coarsening attribute values, such as replacing a specific street address with a ZIP code or a precise birth date with a birth year, to reduce data granularity. Aggregation, often applied through micro-aggregation or clustering, groups individual records and replaces specific values with representative summary values like means or medians. While these techniques effectively reduce the risk of "singling out" individuals, they inherently involve a critical trade-off: increasing the level of protection leads to a corresponding loss of data utility for analytical purposes.
+\autocite[86--89, 131, 138]{Krebs2022}
+\autocite[33--34]{schwartmann2022praxisleitfaden}
 
 \paragraph{k-Anonymity}
-Ensures that every individual record is indistinguishable from at least k-1 other records based on its quasi-identifiers.
+The k-Anonymity model provides a standard for measuring anonymity by ensuring that every record in a dataset is indistinguishable from at least k-1 other records based on its quasi-identifiers. By grouping individuals into these "equivalence classes," the model prevents attackers from isolating a specific person within the data. While a higher value for k significantly reduces the probability of identity disclosure—calculated as 1/k—the model remains vulnerable to attacks that can derive sensitive attributes if all members of a group share the same characteristic.
+\autocite[89--92, 138]{Krebs2022}
+\autocite[44--46]{gmdsbvd2024praxishilfe}
+\autocite[33--34]{schwartmann2022praxisleitfaden}
 
 \paragraph{l-Diversity}
-Extends k-Anonymity by ensuring there is sufficient variety in the sensitive attributes within each group of indistinguishable records to prevent attribute disclosure.
+To address the limitations of k-Anonymity, the l-Diversity model requires that each k-anonymous group contains at least l "well-represented" values for sensitive attributes. This diversity ensures that an attacker cannot definitively infer an individual's sensitive information even if they know the person belongs to a specific group. Common variations include distinct, entropy, and recursive (c, l)-diversity, each offering different levels of protection against inference-based attribute disclosure.
+\autocite[92--93]{Krebs2022}
+\autocite[61--62]{gmdsbvd2024praxishilfe}
+\autocite[34]{schwartmann2022praxisleitfaden}
 
 \paragraph{t-Closeness}
-Refines l-Diversity by requiring that the distribution of a sensitive attribute in any group is close to the distribution of that attribute in the overall population.
+The t-Closeness criterion further refines the privacy standard by requiring that the distribution of a sensitive attribute within any group remains close to the distribution of that attribute in the overall dataset. By limiting the deviation (represented by the parameter t) between the conditional and unconditional distributions, this model prevents attackers from gaining significant knowledge about a person through group-level statistical anomalies. This is particularly useful for maintaining data utility while protecting against sophisticated inference attacks that l-Diversity might not fully mitigate.
+\autocite[93--94]{Krebs2022}
+\autocite[62]{gmdsbvd2024praxishilfe}
 
-\paragraph{δ-Presence}
-Limits the probability that an attacker can determine whether a specific person is present in a private dataset by comparing it with a publicly available one.
+\paragraph{$\delta$-Presence}
+The $\delta$-Presence model specifically addresses the risk of "membership disclosure," where an attacker attempts to determine whether a specific individual is included in a private dataset. This model typically operates by comparing a private dataset against a publicly available one that contains quasi-identifiers, such as a voter registry. By quantifying and limiting the probability ($\delta$) that a person from the larger population can be linked to the specific subset, $\delta$-Presence ensures that the mere presence of a person in a sensitive dataset remains protected.
+\autocite[94]{Krebs2022}
+\autocite[62--63]{gmdsbvd2024praxishilfe}
 
 \subsubsection{Advanced and KI-Based Methods}
 
 \paragraph{Differential Privacy}
-A mathematical framework that adds controlled statistical noise to query results or base data, ensuring that the presence or absence of a single individual does not significantly affect the outcome.
+Differential Privacy is a rigorous mathematical framework that protects individual privacy by adding controlled statistical noise to either the underlying data or query results. This perturbation ensures that the presence or absence of a single individual does not significantly alter the outcome of any statistical analysis. Unlike syntactic models, it provides a semantic guarantee of privacy that remains robust even if an attacker possesses extensive background knowledge. The level of protection is quantified by the parameter $\epsilon$, where a smaller value indicates stronger privacy at the cost of reduced data utility.
+\autocite[96--98]{Krebs2022}
+\autocite[46--47]{gmdsbvd2024praxishilfe}
 
 \paragraph{Data Synthesis}
-Statistical models or Generative Adversarial Networks (GANs) are used to create artificial datasets that reflect the properties of the original data without including real personal identifiers.
+Data Synthesis involves building a statistical model of the original data set to generate entirely new, artificial data that reflects the properties of the original information without including real personal identifiers. Advanced techniques, such as a \ac{GAN}, allow for the creation of realistic synthetic data points — such as images or medical records — that maintain the statistical distribution of the source material. This method is particularly valuable for training machine learning models or testing software when access to authentic personal data is legally restricted. While no direct link exists between the original and synthetic data, the synthesis model must be carefully steered to prevent the disclosure of unique patterns that could lead to re-identification.
+\autocite[19, 99--101]{Krebs2022}
+\autocite[34--35]{schwartmann2022praxisleitfaden}
 
 \paragraph{Semantic Anonymization}
-Uses active ontologies and inferencing to transform data semantically while preserving its analytical value.
+Semantic Anonymization uses active ontologies and inferencing within a semantic AI-based system to transform sensitive information while preserving its analytical meaning. The process involves dividing a data set into specific "data pools" to apply separate transformation rules, a method known as semantic micro-aggregation. By focusing on the meaning and statistical relationships of data points rather than just syntactic structures, it effectively prevents re-identification through quasi-identifiers. This approach aims to maximize data utility for industrial analysis while ensuring that a person-specific trace back to the original records is impossible.
+\autocite[103--107]{Krebs2022}
 
 \paragraph{Federated Machine Learning}
-AI models are trained locally on decentralized data sources, and only non-personal model parameters are transmitted to a central coordinator.
+Federated Machine Learning is a decentralized training approach where algorithms are trained locally on end-user devices or separate company databases rather than in a central repository. Only non-personal model parameters, such as gradients, are transmitted to a central coordinator to be aggregated into a global model. Because the raw training data never leaves its original location, this method significantly reduces the risks associated with data aggregation and unauthorized access under the GDPR. This "bringing the algorithm to the data" approach allows for the development of complex AI models across multiple partners while maintaining high data sovereignty.
+\autocite[101--103]{Krebs2022}
+\autocite[7, 52--53]{schwartmann2022praxisleitfaden}
 
-\subsubsection{Techniques for Unstructured Data}
+\subsection{Techniques for Unstructured Data}
+
+The following techniques for unstructured data focus on removing or altering personal identifiers in formats such as text, images, and video to prevent re-identification.
 
 \paragraph{Metadata Removal}
-Deleting fields in file formats like PDF or DICOM (medical imaging) that contain authors, dates, or study IDs.
+This process involves deleting the entoupled metadata layer in files like PDFs or Word documents, which can contain semantically identifying fields such as author names, creation dates, and titles. It is a critical first step because metadata often exists in the surrounding system (e.g., file systems or emails) and can unintentionally reveal personal information even if the main text appears anonymous.
+\autocite[107--110]{Krebs2022}
 
-\paragraph{Natural Language Processing (NLP)}
-Automatically identifying and masking entities like names, locations, or companies in free text.
+\paragraph{Content-Level Masking and Natural Language Processing}
+This technique uses \ac{NLP} to identify specific entities within a text—such as names, companies, or locations—and replaces them with placeholders or generic strings. Because manual redaction is often inefficient for large datasets, computer-linguistic methods like named entity recognition are used to automatically extract and mask these identifiers.
+\autocite[107--110]{Krebs2022}
 
-\paragraph{Paraphrasing}
-Replacing identifying phrases with generic descriptions while preserving the document's readability.
+\paragraph{Paraphrasing and Coreference Replacement}
+This method replaces identifying references with generic descriptions or alternative phrases based on linguistic resources like ontologies or word embeddings. By identifying "coreferences" (repeated mentions of the same person), researchers can replace specific names with broader categories (e.g., changing a specific street to "a residential area") while maintaining the semantic flow and readability of the document.
+\autocite[107--112]{Krebs2022}
 
 \paragraph{Author Obfuscation}
-Masking an author's unique writing style using neural translation methods like A4NT.
+This technique aims to mask an individual's unique writing style, which can otherwise be identified through digital text forensics. Advanced approaches like \ac{A4NT} use neural networks to "translate" a text into an identity-masking form that hides attributes like gender or age while preserving the original meaning.
+\autocite[110--112]{Krebs2022}
 
-\paragraph{Multimedia Processing}
-Techniques for images and video include pixelation (mosaic), blurring (Gaussian filters), black bars, kanting (outlining), and the use of digital avatars.
+\subsubsection{Multimedia Processing Techniques}
 
-
-
-
-
-
-
-
-
-
+Multimedia processing techniques are specialized methods used to obscure personal identifiers within audio, image, and video data to prevent the re-identification of individuals by human observers or automated systems. For visual media, standard approaches include pixelation (mosaicking), which divides sensitive image areas into blocks filled with average color values, and blurring, often implemented via Gaussian filters to hide faces or license plates. More direct methods include "blanking" (cutting out regions of interest) or the use of black bars, though these can often destroy the analytical context of the background. Advanced AI-driven techniques utilize digital avatars or a \ac{GAN} to replace original facial features or bodies with synthetic versions that preserve the utility of movements and gestures without revealing identity. For audio data, protection involves masking unique vocal characteristics through filtering, pitch shifting, or noise addition, though comprehensive protection must also account for identifying linguistic patterns and word choices. Ultimately, the effectiveness of these techniques depends on the strength of the transformation and the surrounding context, as re-identification remains a risk if environmental clues persist or if the distortion is insufficient to resist modern biometric algorithms.
+\autocite[112--117]{Krebs2022}
+\autocite[64--65]{gmdsbvd2024praxishilfe}
 
 \section{Deciding on an Approach}
 \label{subsec:deciding_on_an_approach}
