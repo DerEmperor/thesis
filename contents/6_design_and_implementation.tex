@@ -254,7 +254,7 @@ A specialized client interface designed to communicate directly with the Sorting
 \subsection{Implementing the Server}
 \label{subsec:implementing_the_server}
 
-To minimize external software dependencies, the implementation utilizes Python's built-in \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by HTTP request method.
+To minimize external software dependencies, the implementation utilizes Python's built-in \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by HTTP request method. Figure \ref{fig:server_flow} represents, how the server handles each request.
 
 \begin{table}[ht]
 	\centering
@@ -280,6 +280,12 @@ To minimize external software dependencies, the implementation utilizes Python's
 		\hline
 	\end{tabular}
 \end{table}
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{resources/server_flow.png}
+	\caption{Server Diagram} 
+	\label{fig:server_flow}
+\end{figure}
 
 \paragraph{\texttt{docker-compose-healthcheck}}
 Provides a health-check endpoint queried periodically by Docker Compose during containerized deployment (see Section \ref{subsec:deploying_the_server}).
