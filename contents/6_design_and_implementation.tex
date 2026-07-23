@@ -228,21 +228,93 @@ There is no fixed, universally applicable threshold that, once met, automaticall
 
 Direct identifiers should be pseudonymized by hashing them into deterministic \acp{UUID}. To achieve k-anonymity, data points can be aggregated according to the organizational hierarchy, specifically by grouping employees into their respective teams. However, indirect identifiers, such as Git commit messages, still present a re-identification risk depending on the specific metrics being analyzed; in a worst-case scenario, these messages must be completely removed. Finally, re-identification risks associated with timestamps can be mitigated by injecting temporal noise.
 
-\section{Implementing the Anonymization Server}
+\section{Implementing the Anonymization Service}
 \label{sec:anonymization_server}
+
+To isolate the handling of sensitive data, the anonymization service operates independently from the primary MECOIS architecture. In addition to performing anonymization, the service acts as a proxy for requests directed to SortingHat, granting fine-grained control over the information exposed to MECOIS. Furthermore, this decoupled architecture supports flexible deployment models: individual components can be deployed independently, allowing MECOIS to run as a standalone application or as a fully integrated on-premise installation.
+
+\subsection{Modules}
+The anonymization service is structured into five core modules:
+
+\paragraph{\texttt{client.requestor}}
+A client library that provides high-level functions to issue HTTP requests to the anonymization server and process incoming responses.
+
+\paragraph{\texttt{server.anonymizer}}
+Responsible for content transformation. It either processes payloads directly according to configured anonymization rules or delegates identity-related queries to SortingHat.
+
+\paragraph{\texttt{server.server}}
+Encapsulates base server operations, including request initialization, body parsing, and route handling. Upon successful validation of incoming payloads, it delegates processing tasks to the \texttt{server.anonymizer} module.
+
+\paragraph{\texttt{utils.converter}}
+Since MECOIS relies on PySpark DataFrames for data processing \autocite{pyspark_dataframe_2026}, DataFrames and their schemas must be serialized to JSON for HTTP transmission. This module provides utility functions for serialization and deserialization.
+
+\paragraph{\texttt{utils.sortinghat\_requestor}}
+A specialized client interface designed to communicate directly with the SortingHat API.
 
 \subsection{Implementing the Server}
 \label{subsec:implementing_the_server}
 
-TODO
+To minimize external software dependencies, the implementation utilizes Python's built-in \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by HTTP request method.
+
+\begin{table}[ht]
+	\centering
+	\caption{Server Endpoints Categorized by HTTP Method}
+	\label{tab:server_endpoints}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{HTTP Method} & \textbf{Endpoints} \\
+		\hline
+		GET & \begin{tabular}[t]{@{}l@{}}
+			\texttt{docker-compose-healthcheck} \\
+			\texttt{ping} \\
+			\texttt{show} \\
+			\texttt{show-profile} \\
+			\texttt{find-profile} \\
+			\texttt{find-profiles-by-organization}
+		\end{tabular} \\
+		\hline
+		POST & \begin{tabular}[t]{@{}l@{}}
+			\texttt{change\_identities} \\
+			\texttt{update\_identities}
+		\end{tabular} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\paragraph{\texttt{docker-compose-healthcheck}}
+Provides a health-check endpoint queried periodically by Docker Compose during containerized deployment (see Section \ref{subsec:deploying_the_server}).
+
+\paragraph{\texttt{ping}}
+Offers a basic connectivity check to verify server availability.
+
+\paragraph{\texttt{show}}
+Proxies requests to SortingHat to retrieve the most recent \ac{UUID} corresponding to a specified identifier.
+
+\paragraph{\texttt{show-profile}}
+Forwards requests to SortingHat to fetch full profile metadata associated with a given \ac{UUID}.
+
+\paragraph{\texttt{find-profile}}
+Queries SortingHat for user profiles matching a given search term.
+
+\paragraph{\texttt{find-profiles-by-organization}}
+Queries SortingHat for user profiles associated with a specified organization.
+
+\paragraph{\texttt{change\_identities}}
+Executes pseudonymization and anonymization on the data set (see Sections \ref{subsec:implementing_pseudonymization} and \ref{subsec:implementing_anonymization}). This endpoint is invoked directly during the Bronze-to-Silver pipeline execution (see Section \ref{subsubsec:bronze2silver}).
+
+\paragraph{\texttt{update\_identities}}
+Re-evaluates and updates previously anonymized and pseudonymized datasets in response to upstream modifications within SortingHat. This endpoint is triggered during Silver-to-Silver pipeline operations (see Section \ref{subsubsec:silver2silver}).
+
 
 \subsection{Implementing the Pseudonymization}
+\label{subsec:implementing_pseudonymization}
 
 Identity management is handled by SortingHat, which assigns a \ac{UUID} to each identity. The anonymization service subsequently replaces all direct identifiers — specified via a configuration file — with this assigned \ac{UUID}. 
 
 SortingHat generates the \ac{UUID} by hashing the user's name, email address, and username using Python's \texttt{hashlib.sha1} module \autocite{sortinghat_repo}. However, this approach presents cryptographic vulnerabilities: SHA-1 is susceptible to hash collisions, lacks resistance to brute-force attacks, and does not support salting \autocite{python_hashlib_2026}. Despite these security limitations, SortingHat's native \ac{UUID} mechanism is retained during the current development phase due to its implementation simplicity, with a cryptographically secure scheme planned for future iterations.
 
 \subsection{Implementing the Anonymization}
+\label{subsec:implementing_anonymization}
 
 SortingHat supports associating individuals with specific enrollments, where an enrollment is defined by a start timestamp, an end timestamp, and an organization. This capability is leveraged to enrich the DataFrame with an additional column representing each individual's organizational affiliation.
 
@@ -250,5 +322,5 @@ SortingHat supports associating individuals with specific enrollments, where an 
 \subsection{Deploying the Server}
 \label{subsec:deploying_the_server}
 
-Docker Container
+For the deployment of the server, this project utilizes Docker Compose, a tool specifically designed for managing multi-container applications through a unified YAML configuration file. This approach offers significant advantages, most notably the ability to link multiple independent microservices and initiate them simultaneously with a single command, providing a higher-level abstraction than individual run commands. Furthermore, the use of Docker ensures consistent environments and application isolation, which prevents dependency conflicts and eases the transition from development to production. The data and application logic are inherently more secure in this setup because they are encapsulated within a container — an isolated instance that utilizes namespaces and its own local file system to remain distinct from the host machine and other services. \autocite[3--5,13,28--29,34--36, 77--81]{jangla2018accelerating}
 
