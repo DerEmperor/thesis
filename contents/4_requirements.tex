@@ -12,7 +12,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 \begin{table}[ht]
 	\caption{Functional requirements}
 	\label{tab:functional_requirements}
-	\begin{tabular}{|l|l|p{7cm}|}
+	\begin{tabular}{|p{1.5cm}|p{5cm}|p{7cm}|}
 		\hline
 		ID & Requirement & Description \\
 		\hline
@@ -22,8 +22,11 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 		FSR-1 & Preserve Data & 
 		The service must preserve all available Data. \\
 		\hline
-		FSR-2 & independent Deployment & 
+		FSR-2 & Independent Deployment & 
 		The service can be deployed and run independent from the rest of the MECOIS project. \\
+		\hline
+		FSR-3 & Deterministic vs. Non-Deterministic Pseudonym Generation & 
+		The service must support consistent \ac{UUID} generation across pipeline runs so that cross-platform metrics can be linked over time without revealing identity. \\
 		\hline
 		FIR-1 & Seamless Integration &
 		The service must integrate into the project with as few changes as possible to existing features. \\
@@ -43,22 +46,28 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  \begin{table}[ht]
  	\caption{Nonfunctional requirements}
  	\label{tab:nonfunctional_requirements}
- 	\begin{tabular}{|l|l|p{7cm}|}
+ 	\begin{tabular}{|p{1.5cm}|p{4cm}|p{8cm}|}
  		\hline
  		ID & Requirement & Description \\
  		\hline
  		NFSR-1 & Containerized Service & 
  		The service must run in a docker container. \\
  		\hline
- 		NFIR-1 & Programming Language & 
- 		The Backend of the MECOIS project is written in python3. Therefore, hhis project must  also use python3. \autocite{github_mecois} \\
+ 		NFSR-2 & Horizontal Scalability and Statelessness & 
+ 		The anonymization service server must remain stateless so multiple instances can be scaled horizontally behind a load balancer during heavy pipeline jobs. \\
  		\hline
- 		NFIR-2 & Licence Policy & 
+ 		NFIR-1 & Data Integrity & 
+ 		The service must maintain schema consistency during the serialization and deserialization of DataFrames to ensure no data loss occurs during the HTTP transmission process. \\
+ 		\hline		
+ 		NFIR-2 & Programming Language & 
+ 		The Backend of the MECOIS project is written in python3. Therefore, this project must  also use python3. \autocite{github_mecois} \\
+ 		\hline
+ 		NFIR-3 & Licence Policy & 
  		The contributing guidelines \autocite{github_mecois} state:
  		
  		"You are allowed to use any package that can help you do your work, as long as it is not a copyleft or proprietary license. However, it is still a good idea to ask beforehand, so you do not put in unnecessary work." \\
  		\hline
- 		NFIR-3 & Styleguide and Clean Code & 
+ 		NFIR-4 & Styleguide and Clean Code & 
  		The contributing guidelines \autocite{github_mecois} state:
  		
  		"We follow the PEP8 standard (with minor exceptions like allowing longer line limits). You can run the custom linter using: pylint.
