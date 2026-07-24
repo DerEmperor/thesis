@@ -1,20 +1,59 @@
 \chapter{Conclusions}
 \label{chapter:conclusions}
 
-%\section{Future Work}
+This thesis has presented the design, implementation, and evaluation of a prototype data anonymization service for the MECOIS framework, addressing the critical tension between software engineering productivity analytics and individual privacy rights under the \ac{GDPR} and \ac{BDSG}. By integrating this service as a decoupled layer within the MECOIS architecture, the project demonstrates a viable path for organizations to derive actionable insights from developer metadata while maintaining a privacy-first approach.
 
-%SortingHat UUID hash ist problematisch
-%Assuring k-anonymity (Es müssen immer mind. 5 Leute in einer Orga sein.)
-%Commit messages und dates müssen noch anonymisiert werden
-%Rechte konzept für direct identifiers mit Logging
-%Risiko analyse
-%Better Server: More threads, asynchronous, not secure -> flask
+\section{Summary of Results}
 
+The developed prototype successfully fulfills the core functional and nonfunctional requirements established for a \ac{GDPR} and \ac{BDSG}-compliant benchmarking system. Key achievements of this work include:
 
-%Right to Erasure / Deletion Cascade Support: If a contributor exercises their GDPR Article 17 "Right to be Forgotten," the service must support purging or hard-anonymizing any remaining historical mappings or logs tied to that contributor.
+\begin{itemize}
+	\item \textbf{Architectural Independence:} The service operates as a stateless, containerized system using Docker Compose, allowing for independent deployment and horizontal scalability without interfering with the primary MECOIS analytics engine.
+	\item \textbf{Privacy Mechanisms:} The service establishes a robust baseline for privacy by pseudonymizing direct identifiers into deterministic \acp{UUID} and achieving k-anonymity through the aggregation of contributors into organizational equivalence classes.
+	\item \textbf{Seamless Integration:} By acting as a proxy for the SortingHat identity management system and providing dedicated endpoints for identity transformation, the service integrates into the existing Bronze-to-Silver and Silver-to-Silver pipelines with minimal disruption.
+	\item \textbf{Data Integrity:} Through the \texttt{utils.converter} module, the service ensures that PySpark DataFrames and their schemas are preserved during HTTP transmission, maintaining the analytical utility of high-dimensional metadata.
+\end{itemize}
 
-%Authentification
+\section{Discussion and Legal Compliance}
 
-%\section{Betriebsrat}
+From a legal perspective, the prototype bridges the gap between scientific research and final product requirements. While the current use of pseudonymization is sufficient for the research phase of MECOIS, the service provides the necessary infrastructure to transition toward factual anonymization — where re-identification requires disproportionate effort — by generalized grouping and the potential permanent deletion of re-identification keys. The evaluation confirms that the system effectively mitigates the risk of "singling out" individuals through its implementation of equivalence classes based on organizational enrollment.
 
+\section{Future Work}
+
+Despite the successful implementation of the prototype, several areas for future development remain to enhance the service's security, privacy robustness, and production readiness.
+
+\subsubsection{Assuring k-anonymity}
+While the current prototype achieves a baseline for k-anonymity by grouping contributors into organizational equivalence classes, it lacks an automated mechanism to enforce the k threshold. Future iterations must implement a check to ensure that every organization in a dataset contains at least k enrolled individuals; if this threshold is not met, the system should automatically aggregate smaller organizations into broader clusters to maintain the necessary anonymity level. Furthermore, the system must account for temporal risks such as employee vacations; if a query targets a narrow timeframe where several contributors are inactive, the number of actual records may fall below the k limit even if the total enrollment is sufficient. Implementing dynamic checks for active record counts within queried intervals is essential to prevent re-identification through "singling out".
+
+\subsubsection{Permission System and Logging}
+The current service acts as a proxy for the SortingHat identity management system, but it lacks a formal access control layer. Currently, any component within the network can query the system to resolve identities. To align with \ac{GDPR} accountability standards, a robust permission system and authentication layer must be implemented to restrict who can resolve \acp{UUID} or access sensitive profile metadata. Additionally, every query to the identity management system should be logged to provide a transparent audit trail of how and when personal data is processed.
+
+\subsubsection{Production-Grade Server}
+The prototype utilizes Python's built-in \texttt{http.server} module to minimize dependencies during development. However, this module is not recommended for production environments as it only implements basic security checks and lacks the performance capabilities for high-volume data pipelines. Future versions should replace this with a production-grade framework such as Flask combined with Gunicorn. This upgrade would provide enhanced security, support for multiple threads, and asynchronous execution, ensuring the service can scale horizontally to handle heavy processing loads behind a load balancer. \autocite{python_http_server_2026}
+
+\subsubsection{Anonymization Analysis}
+A critical next step is a formal, comprehensive analysis of the anonymization effectiveness. While the prototype implements key privacy strategies, a complete report is needed to document the "reasonability" of the approach — evaluating whether re-identification requires a disproportionate effort in terms of time and cost. This analysis should be formalized as an "attacker model" that quantifies residual risks such as linkage or inference attacks based on the specific developer metadata processed by MECOIS.
+
+\subsubsection{Cryptographic Security}
+The service currently relies on SortingHat's native \ac{UUID} generation, which uses a SHA-1 hashing mechanism. As noted in the evaluation, SHA-1 is susceptible to hash collisions and lacks resistance to brute-force or rainbow table attacks. To improve cryptographic security, future iterations must implement a more secure, salted hashing scheme. Appending a "salt" — a random sequence of characters — before hashing will significantly increase the entropy of the identifiers and prevent attackers from using precomputed tables to reverse the transformation.
+
+\subsubsection{Unstructured Data Processing}
+While the service successfully handles structured identifiers, indirect identifiers within unstructured data remains a significant challenge. Specifically, Git commit messages often contain timestamps, specific URLs, or linguistic patterns that could lead to re-identification. Future work should integrate advanced \ac{NLP} for content-level masking or author obfuscation techniques, such as \ac{A4NT}, to mask unique writing styles while preserving the analytical utility of the messages.
+
+\subsubsection{Right to Erasure and Deletion Cascade}
+To ensure full compliance with Art. 17 \ac{GDPR}, commonly referred to as the "Right to be Forgotten," the service must implement a mechanism capable of executing a deletion cascade upon a contributor's request. This process requires the system to irreversibly purge or "hard-anonymize" all historical mappings, pseudonym keys, and logs that allow for the re-identification of that specific individual. While the legal equivalence of anonymization and deletion is a subject of academic debate, a robust transformation that renders re-identification impossible—or possible only through a disproportionate effort in time and cost — can satisfy the requirement to make personal data unrecognizable. Within the SortingHat or similar identity management systems, this necessitates the permanent destruction of deterministic \ac{UUID} mapping tables to break the link between the pseudonym and the original direct identifiers. Furthermore, achieving absolute anonymity requires that no party, including the original controller, retains the means to resolve these identifiers. Transitioning the research prototype into a legally compliant product thus depends on the implementation of these irreversible erasure protocols to uphold the accountability principle and protect the data subject's rights.
+\autocite[71--72,126--130]{Krebs2022}
+\autocite[13,18--20,73--75]{gmdsbvd2024praxishilfe}
+\autocite[13--17]{schwartmann2022praxisleitfaden}
+
+\subsubsection{Works council}
+
+TODO.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mattis eleifend eros eu laoreet. Maecenas id ligula sollicitudin, vehicula elit quis, varius massa. 
 %der Betriebsrat muss mit eingebunden werden.
+
+\vspace{1cm}
+
+In conclusion, the MECOIS anonymization service provides a scalable and legally grounded foundation for modern software analytics, ensuring that the pursuit of team productivity does not come at the expense of developer privacy.
+
+
