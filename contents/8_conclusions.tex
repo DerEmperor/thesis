@@ -7,12 +7,14 @@ This thesis has presented the design, implementation, and evaluation of a protot
 
 The developed prototype successfully fulfills the core functional and nonfunctional requirements established for a \ac{GDPR} and \ac{BDSG}-compliant benchmarking system. Key achievements of this work include:
 
-\begin{itemize}
-	\item \textbf{Architectural Independence:} The service operates as a stateless, containerized system using Docker Compose, allowing for independent deployment and horizontal scalability without interfering with the primary MECOIS analytics engine.
-	\item \textbf{Privacy Mechanisms:} The service establishes a robust baseline for privacy by pseudonymizing direct identifiers into deterministic \acp{UUID} and achieving k-anonymity through the aggregation of contributors into organizational equivalence classes.
-	\item \textbf{Seamless Integration:} By acting as a proxy for the SortingHat identity management system and providing dedicated endpoints for identity transformation, the service integrates into the existing Bronze-to-Silver and Silver-to-Silver pipelines with minimal disruption.
-	\item \textbf{Data Integrity:} Through the \texttt{utils.converter} module, the service ensures that PySpark DataFrames and their schemas are preserved during HTTP transmission, maintaining the analytical utility of high-dimensional metadata.
-\end{itemize}
+\paragraph{Architectural Independence} The service operates as a stateless, containerized system using Docker Compose, allowing for independent deployment and horizontal scalability without interfering with the primary MECOIS analytics engine.
+
+\paragraph{Privacy Mechanisms} The service establishes a robust baseline for privacy by pseudonymizing direct identifiers into deterministic \acp{UUID} and achieving k-anonymity through the aggregation of contributors into organizational equivalence classes.
+
+\paragraph{Seamless Integration} By acting as a proxy for the SortingHat identity management system and providing dedicated endpoints for identity transformation, the service integrates into the existing Bronze-to-Silver and Silver-to-Silver pipelines with minimal disruption.
+
+\paragraph{Data Integrity} Through the \texttt{utils.converter} module, the service ensures that PySpark DataFrames and their schemas are preserved during HTTP transmission, maintaining the analytical utility of high-dimensional metadata.
+
 
 \section{Discussion and Legal Compliance}
 
@@ -46,13 +48,28 @@ To ensure full compliance with Art. 17 \ac{GDPR}, commonly referred to as the "R
 \autocite[13,18--20,73--75]{gmdsbvd2024praxishilfe}
 \autocite[13--17]{schwartmann2022praxisleitfaden}
 
-\subsubsection{Works council}
+\subsubsection{Employee Representation}
 
-TODO.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mattis eleifend eros eu laoreet. Maecenas id ligula sollicitudin, vehicula elit quis, varius massa. 
-%der Betriebsrat muss mit eingebunden werden.
+Various supervisory bodies exist to safeguard and defend employee rights.
 
-\vspace{1cm}
+
+
+\paragraph{Data Protection Officer}
+
+Under certain statutory conditions, organizations are obligated to designate a \ac{DPO}. The \ac{DPO}'s responsibilities encompass providing advisory support, monitoring compliance, and liaising with the supervisory authority. Furthermore, the \ac{DPO} must inform and advise controllers of their legal obligations under data protection law and audit compliance with statutory mandates, such as the \ac{GDPR}. Consequently, the \ac{DPO} must be integrated at an early stage during the planning and design of future digital forms of work \autocite[392--394,400--402]{daeubler2017glaeserne}.
+
+\paragraph{Works Council}
+
+Future implementation of MECOIS in a corporate environment requires the mandatory and active involvement of the works council (\textit{Betriebsrat}), as productivity benchmarking directly affects employee interests. Under German law, specifically \S~87 Abs.~1 Nr.~6 BetrVG, the works council possesses an enforceable right of co-determination regarding the introduction and use of technical facilities designed to monitor the behavior or performance of employees. Since MECOIS processes granular activity-based artifacts such as timestamps and commit details, it falls under this provision regardless of whether the monitoring is the primary intent.
+\autocite[429]{daeubler2017glaeserne}
+\autocite[2--6,79]{niedenhoff2024betriebsraete}
+
+
+The employer is legally obligated to inform the works council timely and comprehensively  under \S~80 Abs.2 BetrVG and must provide all necessary documentation to allow the council to evaluate the impact on the workforce. Furthermore, if the system utilizes AI for its statistical calculations or composite index generation, the works council has an explicit claim to involve external experts to assess the technical implications under \S80 Abs.~3 BetrVG. To facilitate a legally compliant deployment, a shop agreement (\textit{Betriebsvereinbarung}) must be concluded, which defines the specific boundaries of data usage. The technical measures implemented in this prototype — specifically pseudonymization via deterministic \acp{UUID} and the achievement of k-anonymity through organizational grouping—serve as a critical baseline for these negotiations to ensure that the pursuit of team productivity does not lead to the creation of "glass employees".
+\autocite[2--4,61--62,72--73,96--97,99--101,134,348--351]{niedenhoff2024betriebsraete}
+
+
+\vspace{2cm}
 
 In conclusion, the MECOIS anonymization service provides a scalable and legally grounded foundation for modern software analytics, ensuring that the pursuit of team productivity does not come at the expense of developer privacy.
 
