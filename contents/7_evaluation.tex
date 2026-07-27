@@ -48,7 +48,7 @@ The anonymization service effectively maintains the consistency of data structur
 
 The requirement is fully satisfied, as the anonymization service is implemented entirely in \texttt{Python3}. This alignment with the existing MECOIS backend ensures seamless interoperability between the system components, particularly for the processing of \texttt{PySpark DataFrames} and the integration of the service into the multi-stage data pipeline. Furthermore, the use of \texttt{Python} allows the prototype to leverage standardized libraries, such as \texttt{http.server} for the backend implementation and \texttt{hashlib} for generating deterministic \acp{UUID}, while adhering to the project's mandated coding and license policies. By fulfilling this requirement, the service maintains technical consistency across the research framework, facilitating easier maintenance and future development.
 
-\subsubsection{NFIR-3: Licence Policy}
+\subsubsection{NFIR-3: License Policy}
 
 The anonymization service adheres to the project's mandate to avoid the use of packages with copyleft or proprietary licenses. The prototype is implemented using \texttt{Python } and relies primarily on its standard libraries, such as \texttt{http.server} for the backend, which conform to permissive licensing standards. Furthermore, while the service interfaces with the SortingHat identity management system—which is governed by a \texttt{GPL-3.0} license — it maintains a strictly decoupled relationship by communicating exclusively via \texttt{HTTP}. This architectural separation ensures that the service's internal codebase remains independent of external copyleft requirements, thereby fulfilling the integration constraints established by the MECOIS contributing guidelines.
 

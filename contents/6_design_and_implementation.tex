@@ -194,7 +194,7 @@ Federated Machine Learning is a decentralized training approach where algorithms
 The following techniques for unstructured data focus on removing or altering personal identifiers in formats such as text, images, and video to prevent re-identification.
 
 \paragraph{Metadata Removal}
-This process involves deleting the entoupled metadata layer in files like PDFs or Word documents, which can contain semantically identifying fields such as author names, creation dates, and titles. It is a critical first step because metadata often exists in the surrounding system (e.g., file systems or emails) and can unintentionally reveal personal information even if the main text appears anonymous.
+This process involves deleting the decoupled metadata layer in files like PDFs or Word documents, which can contain semantically identifying fields such as author names, creation dates, and titles. It is a critical first step because metadata often exists in the surrounding system (e.g., file systems or emails) and can unintentionally reveal personal information even if the main text appears anonymous.
 \autocite[107--110]{Krebs2022}
 
 \paragraph{Content-Level Masking and Natural Language Processing}
@@ -215,7 +215,7 @@ Multimedia processing techniques are specialized methods used to obscure persona
 \autocite[112--117]{Krebs2022}
 \autocite[64--65]{gmdsbvd2024praxishilfe}
 
-\section{The Risk of Re-Idendification}
+\section{The Risk of Re-Identification}
 
 There is no fixed, universally applicable threshold that, once met, automatically renders data anonymous; instead, anonymization is a contextual state determined by a "reasonability test". Because absolute anonymization — where re-identification is impossible under any circumstances — is considered practically unachievable and is not legally required, the focus is on whether identification is unlikely or requires a disproportionate effort in terms of time, cost, and manpower. Consequently, rather than relying on a static limit, researchers must perform a comprehensive risk assessment that considers the specific data environment, the intended use-case (such as internal analysis versus public release), and the likely means available to a potential attacker. This evaluation should be formalized in a risk report or "attacker model" that documents the chosen transformation methods, identifies potential re-identification scenarios like "singling out" or "linkage attacks," and quantifies the remaining residual risk. Under the accountability principle of the \ac{GDPR}, this systematic process of evaluation and documentation is essential to demonstrate that the risk to the rights and freedoms of individuals has been effectively mitigated.
 \autocite[120, 124--132]{Krebs2022}
