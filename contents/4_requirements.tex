@@ -17,7 +17,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 		ID & Requirement & Description \\
 		\hline
 		FLR-1 & Data Anonymization & 
-		The service must follow the German \ac{GDPR} (called \ac{DSGVO}) and \ac{BDSG}. \\
+		The service must follow the German privacy laws (\ac{GDPR}) and \ac{BDSG}). \\
 		\hline
 		FSR-1 & Preserve Data & 
 		The service must preserve all available Data. \\
@@ -34,7 +34,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 	\end{tabular}
 \end{table}
 
-The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{DSGVO}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two.
+The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{GDPR}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two.
 
 
 \section{Nonfunctional Requirements}
@@ -51,7 +51,7 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  		ID & Requirement & Description \\
  		\hline
  		NFSR-1 & Containerized Service & 
- 		The service must run in a docker container. \\
+ 		The service must run in a docker container, the industry standard for containerized deployment. \\
  		\hline
  		NFSR-2 & Horizontal Scalability and Statelessness & 
  		The anonymization service server must remain stateless so multiple instances can be scaled horizontally behind a load balancer during heavy pipeline jobs. \\

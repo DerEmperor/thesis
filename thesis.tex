@@ -92,13 +92,17 @@ This work is licensed under the Creative Commons Attribution 4.0 International l
 \chapter*{Abstract}\label{chapter:abstract}
 \input{contents/abstract.tex}
 
+\acresetall
+
 \ifthenelse{\equal{\thesislanguage}{German}}
   { % true
     \chapter*{Zusammenfassung}\label{chapter:zusammenfassung}
     \input{contents/zusammenfassung.tex}
+    
+    \acresetall
   } { %false
   }
-
+  
 \tableofcontents
 \listoffigures
 \listoftables
@@ -127,15 +131,15 @@ This work is licensed under the Creative Commons Attribution 4.0 International l
 
 %%%%%%%%%%%%%%%%% CLOSING SECTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\begin{appendices}
+\begin{appendices}
 
- % \renewcommand{\setthesection}{\Alph{section}}
-  %\renewcommand{\thesection}{\Alph{section}}
-  %\headerstyleclosingsection\
-  %\renewcommand\sectionmark[1]{\markright{\thesection : #1}} % Appendix A. => Appendix A:
+  \renewcommand{\setthesection}{\Alph{section}}
+  \renewcommand{\thesection}{\Alph{section}}
+  \headerstyleclosingsection\
+  \renewcommand\sectionmark[1]{\markright{\thesection : #1}} % Appendix A. => Appendix A:
 
-  %\input contents/appendices.tex
-%\end{appendices}
+  \input{contents/appendices.tex}
+\end{appendices}
 
 \cleardoublepage
 \renewcommand\bibname{\referencesname}
