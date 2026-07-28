@@ -28,24 +28,25 @@ Figure \ref{fig:MecoIS_GitHub_Structure} displays an overview of all components.
 
 \subsubsection{Sources}
 \label{subsubsec:sources}
-
-The sources define the origin for the data. Currently we are using Git (GitHub and GitLab), Confluence and Jira as source. For Example from GitHub we pull among other commits, issues and pipelines.
+\underline{Würde lieber "data sources" schreiben}
+The sources define the origin for the data. Currently we are using Git (GitHub and GitLab), Confluence and Jira as source\underline{(s)}. For Example from GitHub we pull among other commits, issues and pipelines. \underline{Grammatik passt nicht}
 
 \subsubsection{Infrastructure}
 \label{subsubsec:infrastructure}
 
-The infrastructure provides the database for the project. The data is stored in a data lake, which is a repository, where data is stored as-is without further structure \autocite{datalake_aws}. Each set of data passes through 4 Stages: raw, bronze, silver, gold.
+The infrastructure provides the database for the project. The data is stored in a data lake, which is a repository \underline{das Bild spricht von einem Lakehouse}, where data is stored as-is without further structure \autocite{datalake_aws}. Each set of data \underline{(dataset)} passes through 4 Stages: raw, bronze, silver, gold.
 
 \subsubsection{Pipeline}
 \label{subsubsec:pipeline}
 
 The pipelines transform the data between the stages.
-
+\underline{Nicht sehr informativ. Ich würde das Kapitel generell etwas zusammenstreichen und sagen dass du hier durch die starke Entkopplung nur auf die Dinge eingehst die für dein System relevant sind}
 
 \subsubsection{Analytics}
 \label{subsubsec:analytics}
 
 In the last step the data is used to provide multiple analytics for customers. Examples for such analytics are:
+\underline{Wenn du hier einfach Buchtitel angeben möchtest musst du den Satz davor anders formulieren.}
 
 \begin{itemize}
 	\item Calculating the Costs of Inner Source Collaboration by Computing the Time Worked \autocite{analytic_cost}
@@ -82,12 +83,13 @@ The front end provides a Dashboard for the user-facing components of MECOIS. Fig
 \subsubsection{Orchestrators}
 \label{subsubsec:orchestrators}
 
-The orchestrators can be used to run the pipeline. The set up the configuration and run the pipeline for the selected sources.
+The orchestrators can be used to run the pipeline. The \underline{(They)} set up the configuration and run the pipeline for the selected sources.
 
 \subsection{Data Flow}
 \label{subsec:dataflow}
 
 After pulling the source the raw data is stored exactly as provided as JSON. In the data lake the Data is processed multiple times and the states are called bronze, silver and gold. The processing is done by the pipelines.
+\underline{Die Info hattest du schon im Kapitel davor}
 
  Each pipeline hast 3 steps:
  
@@ -125,7 +127,7 @@ Not all data is useful. Some columns (e.g. the URL to the avatar of a GitHub use
 
 \paragraph{Fix dates}
 
-Dates are still stored as String. This steps casts these Strings into 
+Dates are still stored as String. This steps casts these Strings into \underline{hier fehlt was}
 
 \paragraph{Anonymize Data}
 
@@ -144,7 +146,7 @@ Identities may update in the identity management system. The \texttt{UpdateIdent
 \label{subsubsec:silver2gold}
 
 There is no single \texttt{Silver2GoldPipeline}. The analytics represent the gold to silver pipelines. Each analytic uses the silver data to provide some metric.
-
+\underline{meinst du nicht silver to gold?}
 \subsubsection{Gold to Gold}
 \label{subsubsec:gold2gold}
 
@@ -195,6 +197,6 @@ Figure \ref{fig:sortinghat_frontend} shows a screenshot of the front end. Since 
 \subsection{API}
 \label{subsubsec:api}
 
-The SortingHat also provided an API for automating interactions, like listing, updating and deleting individuals.
+The SortingHat also provided \underline{(provides)} an API for automating interactions, like listing, updating and deleting individuals.
 
 
