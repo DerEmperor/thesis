@@ -1,14 +1,16 @@
 \chapter{Requirements}
 \label{chapter:requirements}
 
-The purpose of this chapter is to define the requirements necessary to facilitate a productivity benchmarking system compliant with the \ac{GDPR} and \ac{BDSG}. \textcite{IEEE} splits requirements into functional and nonfunctional ones. Functional requirements define what a product must do and nonfunctional ones declare how the system should operate. Furthermore, the requirements can classified into legality, system and integration. The service must abide to relevant data protection laws. System requirements specify how the service itself will be designed according to the author. The MECOIS project itself sets some integration demands in its contributing guidelines \autocite{github_mecois}, that must be satisfied.
-
+The purpose of this chapter is to define the requirements necessary to facilitate a productivity benchmarking system compliant with the \ac{GDPR} and \ac{BDSG}. \textcite{IEEE} \underline{würde es anders formulieren, da das keine Sache ist die sich dieses Buch ausgedacht hat sondern ganz normal} splits requirements into functional and nonfunctional ones. Functional requirements define what a product must do and \underline{(while)} nonfunctional ones declare how the system should operate. Furthermore, the requirements can \underline{(be)} classified into \underline{(the categories)} legality, system and integration. The \underline{Ich weiß du beziehst dich hier auf deine Kategorien, aber es ist sehr clunky ohne Verbindungsframing} service must abide to relevant data protection laws. System requirements specify how the service itself will be designed according to the author \underline{der Satz funktioniert grammatikalisch glaub ich nicht so ganz}. The MECOIS project itself sets some integration demands in its contributing guidelines \autocite{github_mecois}, that must be satisfied.
+\underline{Der ganze Abschnitt gefällt mir nicht so gut. Ich würde auf jeden Fall die Quelle ans Ende der akademischen Beschreibung von Requirements stellen lieber.}
+\underline{Außerdem braucht die Beschreibung der einzelnen Kategorien etwas mehr framing und Übergänge, grade liest es sich sehr ruppig, zumal es sich sprachlich sehr stark von den von mir bisher gelesenen Kapiteln abhebt}
+\underline{Zusätzlich fällt beim lesen der Tabellen immer mehr auf das grade die non functionals bisschen aus der Luft gegriffen sind ohne zu erklären wo sie herkommen, das würde ich auch ausführen, reicht ja wenn du sagst dass sie dir genannt wurden oder so}
 \section{Functional Requirements}
 \label{sec:functional_requirements}
 
-The table \ref{tab:functional_requirements} specifies what the anonymization must do.
-They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
-
+The table \ref{tab:functional_requirements} specifies what the anonymization \underline{(service(?))} must do. \underline{Inhaltlich korrekt, aber würde ich etwas blumiger beschreiben, iwas in Richtung "Sind die Anforderungen die das Projekt erfüllen muss um als erfolgreich abgeschlossen zu gelten" oder so}
+They \underline{Pronomen nur verwenden wenn das Nomen schon einmal im Abschnitt genannt wurde} are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
+\underline{Ich weiß nicht wie du deine Requirements geschnitten hast, aber hier fehlt mir irgendwie noch etwas zum grundsätzlichen Verhalten des Systems, also was kannst du ihm reingeben und was gibt er dir dann wieder raus}
 \begin{table}[ht]
 	\caption{Functional requirements}
 	\label{tab:functional_requirements}
@@ -17,7 +19,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 		ID & Requirement & Description \\
 		\hline
 		FLR-1 & Data Anonymization & 
-		The service must follow the German privacy laws (\ac{GDPR}) and \ac{BDSG}). \\
+		The service must follow the German privacy laws (\ac{GDPR}) and (\ac{BDSG}). \\
 		\hline
 		FSR-1 & Preserve Data & 
 		The service must preserve all available Data. \\
@@ -25,7 +27,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 		FSR-2 & Independent Deployment & 
 		The service can be deployed and run independent from the rest of the MECOIS project. \\
 		\hline
-		FSR-3 & Deterministic vs. Non-Deterministic Pseudonym Generation & 
+		FSR-3 & Deterministic vs. Non-Deterministic Pseudonym Generation \underline{Würde das vs. weglassen wenn nicht Evaluation dein Req ist sondern einfach daterministic generation} & 
 		The service must support consistent \ac{UUID} generation across pipeline runs so that cross-platform metrics can be linked over time without revealing identity. \\
 		\hline
 		FIR-1 & Seamless Integration &
@@ -34,14 +36,14 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 	\end{tabular}
 \end{table}
 
-The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{GDPR}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two.
+The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{GDPR}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand \underline{(stands)} in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two. \underline{würde auch hier erwähnen wo du diese Dichotomie auflöst oder versuchst aufzulösen }
 
 
 \section{Nonfunctional Requirements}
 \label{sec:nonfunctional_requirements}
 
 The table \ref{tab:nonfunctional_requirements} specifies how the anonymization service must operate.
-They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it is evaluated in chapter \ref{chapter:design_and_implementation}, how the legal requirements will be satisfied.
+They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it is evaluated in chapter \ref{chapter:design_and_implementation}, how the legal requirements will be satisfied. \underline{Der Satz fühlt sich grammatikalisch nicht gut an, außerdem weiß ich nicht ob ein legal requirement das sagt "Ergebnisse von Kapitel 6 umsetzen" nicht sinnvoller wäre}
 
  \begin{table}[ht]
  	\caption{Nonfunctional requirements}
@@ -51,7 +53,7 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  		ID & Requirement & Description \\
  		\hline
  		NFSR-1 & Containerized Service & 
- 		The service must run in a docker container, the industry standard for containerized deployment. \\
+ 		The service must run in a docker container, the industry standard for containerized deployment.\underline{Quelle} \\ 
  		\hline
  		NFSR-2 & Horizontal Scalability and Statelessness & 
  		The anonymization service server must remain stateless so multiple instances can be scaled horizontally behind a load balancer during heavy pipeline jobs. \\
@@ -65,7 +67,7 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  		NFIR-3 & License Policy & 
  		The contributing guidelines \autocite{github_mecois} state:
  		
- 		"You are allowed to use any package that can help you do your work, as long as it is not a copyleft or proprietary license. However, it is still a good idea to ask beforehand, so you do not put in unnecessary work." \\
+ 		"You are allowed to use any package that can help you do your work, as long as it is not a copyleft or proprietary license. However, it is still a good idea to ask beforehand, so you do not put in unnecessary work." \underline{Du solltest schreiben was du daraus ableitest} \\
  		\hline
  		NFIR-4 & Styleguide and Clean Code & 
  		The contributing guidelines \autocite{github_mecois} state:
@@ -78,7 +80,7 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  		\item Remove comments that are not necessary for understanding your code
  		\item Remove unnecessary print statements
  		\item Make sure to update and provide the DocString description of the methods you write. Make sure to have it adjusted to your use-case if you copy method-stubs from other part of the code"
- 		\end{itemize}\\
+ 		\end{itemize} \underline{Unnötig langes Zitat, lässt sich mit "Follow the style guidelines of the main project" zusammenfassen}\\
  		\hline
  	\end{tabular}
  \end{table}
