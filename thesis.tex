@@ -91,13 +91,17 @@ This work is licensed under the Creative Commons Attribution 4.0 International l
 \chapter*{Abstract}\label{chapter:abstract}
 \input{contents/abstract.tex}
 
+\acresetall
+
 \ifthenelse{\equal{\thesislanguage}{German}}
   { % true
     \chapter*{Zusammenfassung}\label{chapter:zusammenfassung}
     \input{contents/zusammenfassung.tex}
+    
+    \acresetall
   } { %false
   }
-
+  
 \tableofcontents
 \listoffigures
 \listoftables
