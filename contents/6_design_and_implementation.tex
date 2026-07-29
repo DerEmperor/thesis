@@ -6,7 +6,7 @@ Chapter \ref{chapter:architecture} described the architecture of the MECOIS proj
 \section{Reason for an Anonymization Service}
 \label{sec:reason_for_a_anonymization_service}
 
-According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this date for other purposes. There are only a few specific exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
+According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this data for other purposes. There are only a few specific exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
 
 \subsection{Purpose Limitation}
 
@@ -16,9 +16,9 @@ One exception is scientific research. If individuals are part of a scientific re
 
 \subsection{Anonymized Data}
 
-The \ac{BDSG} only applies to personal Data, which is defined in Section 3 (1): Personal data consists of specific information about the personal or factual circumstances of an identified or identifiable natural person (data subject). \autocite[69]{daeubler2017glaeserne}
+The \ac{BDSG} only applies to personal data, which is defined in Section 3 (1): Personal data consists of specific information about the personal or factual circumstances of an identified or identifiable natural person (data subject). \autocite[69]{daeubler2017glaeserne}
 
-The \ac{GDPR} has an similar approach. In Article 4(1) it defines personal data as any information relating to an identified or identifiable natural person (hereinafter referred to as the “data subject”). A natural person is considered identifiable if they can be identified, directly or indirectly, in particular by association with an identifier such as a name, an identification number, location data, an online identifier, or one or more factors specific to the physical, physiological, genetic, mental, economic, cultural, or social identity of that natural person. \autocite[69]{daeubler2017glaeserne}
+The \ac{GDPR} has a similar approach. In Article 4(1) it defines personal data as any information relating to an identified or identifiable natural person (hereinafter referred to as the “data subject”). A natural person is considered identifiable if they can be identified, directly or indirectly, in particular by association with an identifier such as a name, an identification number, location data, an online identifier, or one or more factors specific to the physical, physiological, genetic, mental, economic, cultural, or social identity of that natural person. \autocite[69]{daeubler2017glaeserne}
 
 Unlike anonymized data, where re-identification is rendered impossible, pseudonymized data remains traceable to an individual. Consequently, pseudonymized data falls directly under the scope of the \ac{GDPR} and \ac{BDSG}. Conversely, because anonymized data no longer relates to an identified or identifiable natural person, it falls entirely outside the jurisdiction of the \ac{GDPR}.
 \autocite[69]{daeubler2017glaeserne}
@@ -53,7 +53,7 @@ Indirect identifiers or quasi-identifiers include data points like birth dates, 
 
 \paragraph{Sensitive Attributes}
 
-Sensitive attributes, such as the special categories of data protected under Article 9 of the \ac{GDPR} (e.g., genetic or health data), require the highest level of protection due to the potential for discrimination and significant impact on individual freedoms.
+Sensitive attributes, such as the special categories of data protected under Article 9 of the \ac{GDPR} (e.g. genetic or health data), require the highest level of protection due to the potential for discrimination and significant impact on individual freedoms.
 \autocite[131--133]{Krebs2022}
 \autocite[8, 24--25]{gmdsbvd2024praxishilfe}
 
@@ -81,7 +81,7 @@ Pseudonymization involves replacing identifiers with surrogates so that the data
 \autocite[71, 77]{Krebs2022}
 
 \paragraph{Masking and Replacement}
-Direct identifiers are replaced with constant values, characters, or placeholders (e.g., replacing "John Doe" with "Person A" or setting the birthday to the first of January).
+Direct identifiers are replaced with constant values, characters, or placeholders (e.g. replacing "John Doe" with "Person A" or setting the birthday to the first of January).
 \autocite[77-80]{Krebs2022}
 \autocite[40, 44]{gmdsbvd2024praxishilfe}
 
@@ -112,7 +112,7 @@ Anonymization aims to permanently remove the connection between data and a natur
 
 \paragraph{Structured Data}
 
-Structured data refers to information that is organized according to a fixed schema or predefined format, ensuring that its content and meaning are clearly and uniquely determinable. It is fundamentally understood through a "Key-Value" representation, where the "Key" assigns specific meaning (e.g., "First Name") and the "Value" contains the actual content (e.g., "Anne"). In practice, this data is typically stored in tabular formats like spreadsheets or relational databases, where each row represents an individual data record and each column defines a specific attribute with a fixed data type, such as numeric values, categorical lists, or qualitative ratings. This rigid organization makes structured data highly searchable and suitable for systematic processing by automated analysis tools.
+Structured data refers to information that is organized according to a fixed schema or predefined format, ensuring that its content and meaning are clearly and uniquely determinable. It is fundamentally understood through a "Key-Value" representation, where the "Key" assigns specific meaning (e.g. "First Name") and the "Value" contains the actual content (e.g. "Anne"). In practice, this data is typically stored in tabular formats like spreadsheets or relational databases, where each row represents an individual data record and each column defines a specific attribute with a fixed data type, such as numeric values, categorical lists, or qualitative ratings. This rigid organization makes structured data highly searchable and suitable for systematic processing by automated analysis tools.
 \autocite[45--46]{Krebs2022}
 \autocite[11--12]{schwartmann2022praxisleitfaden}
 
@@ -137,7 +137,7 @@ Artificial statistical noise is added to some or all data points to prevent reli
 \autocite[36]{schwartmann2022praxisleitfaden}
 
 \paragraph{Microaggregation (Clustering)}
-Data records are grouped by similarity, and their values are replaced by a representative average (e.g., mean or median) for that group.
+Data records are grouped by similarity, and their values are replaced by a representative average (e.g. mean or median) for that group.
 \autocite[86]{Krebs2022}
 
 
@@ -195,7 +195,7 @@ Federated Machine Learning is a decentralized training approach where algorithms
 The following techniques for unstructured data focus on removing or altering personal identifiers in formats such as text, images, and video to prevent re-identification.
 
 \paragraph{Metadata Removal}
-This process involves deleting the decoupled metadata layer in files like PDFs or Word documents, which can contain semantically identifying fields such as author names, creation dates, and titles. It is a critical first step because metadata often exists in the surrounding system (e.g., file systems or emails) and can unintentionally reveal personal information even if the main text appears anonymous.
+This process involves deleting the decoupled metadata layer in files like PDFs or Word documents, which can contain semantically identifying fields such as author names, creation dates, and titles. It is a critical first step because metadata often exists in the surrounding system (e.g. file systems or emails) and can unintentionally reveal personal information even if the main text appears anonymous.
 \autocite[107--110]{Krebs2022}
 
 \paragraph{Content-Level Masking and Natural Language Processing}
@@ -203,7 +203,7 @@ This technique uses \ac{NLP} to identify specific entities within a text—such 
 \autocite[107--110]{Krebs2022}
 
 \paragraph{Paraphrasing and Coreference Replacement}
-This method replaces identifying references with generic descriptions or alternative phrases based on linguistic resources like ontologies or word embeddings. By identifying "coreferences" (repeated mentions of the same person), researchers can replace specific names with broader categories (e.g., changing a specific street to "a residential area") while maintaining the semantic flow and readability of the document.
+This method replaces identifying references with generic descriptions or alternative phrases based on linguistic resources like ontologies or word embeddings. By identifying "coreferences" (repeated mentions of the same person), researchers can replace specific names with broader categories (e.g. changing a specific street to "a residential area") while maintaining the semantic flow and readability of the document.
 \autocite[107--112]{Krebs2022}
 
 \paragraph{Author Obfuscation}
