@@ -6,7 +6,7 @@ Chapter \ref{chapter:architecture} described the architecture of the MECOIS proj
 \section{Reason for an Anonymization Service}
 \label{sec:reason_for_a_anonymization_service}
 
-According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this date for other purposes. There are only a few specific Exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
+According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this date for other purposes. There are only a few specific exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
 
 \subsection{Purpose Limitation}
 
@@ -238,7 +238,7 @@ To isolate the handling of sensitive data, the anonymization service operates in
 The anonymization service is structured into five core modules:
 
 \paragraph{\texttt{client.requestor}}
-A client library that provides high-level functions to issue HTTP requests to the anonymization server and process incoming responses.
+A client library that provides high-level functions to issue \ac{HTTP} requests to the anonymization server and process incoming responses.
 
 \paragraph{\texttt{server.anonymizer}}
 Responsible for content transformation. It either processes payloads directly according to configured anonymization rules or delegates identity-related queries to SortingHat.
@@ -247,25 +247,25 @@ Responsible for content transformation. It either processes payloads directly ac
 Encapsulates base server operations, including request initialization, body parsing, and route handling. Upon successful validation of incoming payloads, it delegates processing tasks to the \texttt{server.anonymizer} module.
 
 \paragraph{\texttt{utils.converter}}
-Since MECOIS relies on PySpark DataFrames for data processing \autocite{pyspark_dataframe_2026}, DataFrames and their schemas must be serialized to JSON for HTTP transmission. This module provides utility functions for serialization and deserialization.
+Since MECOIS relies on PySpark DataFrames for data processing \autocite{pyspark_dataframe_2026}, DataFrames and their schemas must be serialized to \ac{JSON} for \ac{HTTP} transmission. This module provides utility functions for serialization and deserialization.
 
 \paragraph{\texttt{utils.sortinghat\_requestor}}
-A specialized client interface designed to communicate directly with the SortingHat API.
+A specialized client interface designed to communicate directly with the SortingHat \ac{API}.
 
 \pagebreak
 
 \subsection{Implementing the Server}
 \label{subsec:implementing_the_server}
 
-To minimize external software dependencies, the implementation utilizes Python's built-in \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by HTTP request method. Figure \ref{fig:server_flow} represents, how the server handles each request.
+The anonymization service is implemented as a RESTful web service to provide a standardized, stateless, and scalable interface within the MECOIS architecture. Following the fundamental principles of Representational State Transfer, the service utilizes a uniform interface where resources are identified by unique \acp{URL} and interacted with through standard \ac{HTTP} methods. To minimize external software dependencies during the prototyping phase, the server is built using Python’s native \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by \ac{HTTP} request method. Figure \ref{fig:server_flow} represents how the server handles each request. Communication between components is handled via \ac{JSON} payloads, with the \texttt{utils.converter} module ensuring the integrity of PySpark \texttt{DataFrames} and their associated schemas during transmission. By maintaining statelessness, the \ac{API} allows multiple service instances to be scaled horizontally, meeting the performance demands of high-dimensional metadata processing without compromising data consistency.
 
 \begin{table}[ht]
 	\centering
-	\caption{Server Endpoints Categorized by HTTP Method}
+	\caption{Server Endpoints Categorized by \ac{HTTP} Method}
 	\label{tab:server_endpoints}
 	\begin{tabular}{|l|l|}
 		\hline
-		\textbf{HTTP Method} & \textbf{Endpoints} \\
+		\textbf{\ac{HTTP} Method} & \textbf{Endpoints} \\
 		\hline
 		GET & \begin{tabular}[t]{@{}l@{}}
 			\texttt{docker-compose-healthcheck} \\
@@ -320,7 +320,7 @@ Re-evaluates and updates previously anonymized and pseudonymized datasets in res
 
 Identity management is handled by SortingHat, which assigns a \ac{UUID} to each identity. The anonymization service subsequently replaces all direct identifiers — specified via a configuration file — with this assigned \ac{UUID}. 
 
-SortingHat generates the \ac{UUID} by hashing the user's name, email address, and username using Python's \texttt{hashlib.sha1} module \autocite{sortinghat_repo}. However, this approach presents cryptographic vulnerabilities: SHA-1 is susceptible to hash collisions, lacks resistance to brute-force attacks, and does not support salting \autocite{python_hashlib_2026}. Despite these security limitations, SortingHat's native \ac{UUID} mechanism is retained during the current development phase due to its implementation simplicity, with a cryptographically secure scheme planned for future iterations.
+SortingHat generates the \ac{UUID} by hashing the user's name, email address, and username using the SHA-1 algorithm provided by Python's hashlib library \autocite{sortinghat_repo}. However, this approach presents cryptographic vulnerabilities: SHA-1 is susceptible to hash collisions, lacks resistance to brute-force attacks, and does not support salting \autocite{python_hashlib_2026}. Despite these security limitations, SortingHat's native \ac{UUID} mechanism is retained during the current development phase due to its implementation simplicity, with a cryptographically secure scheme planned for future iterations.
 
 \subsection{Implementing the Anonymization}
 \label{subsec:implementing_anonymization}

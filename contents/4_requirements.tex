@@ -6,8 +6,8 @@ This chapter defines the requirements necessary to establish a productivity benc
 \section{Functional Requirements}
 \label{sec:functional_requirements}
 
-The table \ref{tab:functional_requirements} specifies what the anonymization must do.
-They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
+The table \ref{tab:functional_requirements} specifies what the anonymization service must do.
+The requirements are sorted by \ac{FLR}, \ac{FSR}, and \ac{FIR}.
 
 \begin{table}[ht]
 	\caption{Functional requirements}
@@ -25,7 +25,7 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 		FSR-2 & Independent Deployment & 
 		The service can be deployed and run independent from the rest of the MECOIS project. \\
 		\hline
-		FSR-3 & Deterministic vs. Non-Deterministic Pseudonym Generation & 
+		FSR-3 & Deterministic Pseudonym Generation & 
 		The service must support consistent \ac{UUID} generation across pipeline runs so that cross-platform metrics can be linked over time without revealing identity. \\
 		\hline
 		FIR-1 & Seamless Integration &
@@ -34,14 +34,13 @@ They are sorted by \ac{FLR}, \ac{FSR} and \ac{FIR}.
 	\end{tabular}
 \end{table}
 
-The Data Anonymization requirement FLR-1 is defined very vague by design. There can be many ways to anonymize data according to the \ac{GDPR}. Chapter \ref{chapter:design_and_implementation} will compare and present different approaches. It stand in direct conflict with FSR-1 Preserve Data. The aim is to find a compromise between these two.
-
+The requirement for Data Anonymization (FLR-1) is intentionally formulated with a broad scope, as the \ac{GDPR} does not prescribe a singular technical methodology but rather establishes a high-level legal standard. Because various technical approaches can achieve compliance, Chapter \ref{chapter:design_and_implementation} systematically evaluates and compares different anonymization strategies suitable for high-dimensional development metadata. This legal mandate exists in fundamental tension with the system requirement to Preserve Data (FSR-1), which seeks to maintain the integrity of all source information for analytical depth. Consequently, a primary objective of this work is to navigate this conflict by identifying a functional compromise that ensures robust individual privacy while maintaining the data utility required for the derivation of the MECOIS Productivity Index.
 
 \section{Nonfunctional Requirements}
 \label{sec:nonfunctional_requirements}
 
 The table \ref{tab:nonfunctional_requirements} specifies how the anonymization service must operate.
-They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it is evaluated in chapter \ref{chapter:design_and_implementation}, how the legal requirements will be satisfied.
+They are sorted by \ac{NFLR}, \ac{NFSR}, and \ac{NFIR}.
 
  \begin{table}[ht]
  	\caption{Nonfunctional requirements}
@@ -50,35 +49,26 @@ They are sorted by \ac{NFSR} and \ac{NFIR}. There are no \ac{NFLR}, because it i
  		\hline
  		ID & Requirement & Description \\
  		\hline
- 		NFSR-1 & Containerized Service & 
- 		The service must run in a docker container, the industry standard for containerized deployment. \\
+ 		NFLR-1 & Anonymization Methodology Adherence & 
+ 		The service must implement the anonymization measures decided upon in Chapter \ref{chapter:design_and_implementation}.  \\
  		\hline
- 		NFSR-2 & Horizontal Scalability and Statelessness & 
- 		The anonymization service server must remain stateless so multiple instances can be scaled horizontally behind a load balancer during heavy pipeline jobs. \\
+ 		NFSR-1 & Containerized Service & 
+ 		The service must run in a docker container, a common used framework for containerized deployment. \autocite[9--11]{jangla2018accelerating} \\
+ 		\hline
+ 		NFSR-2 & RESTful \ac{API} &
+ 		The service must implement a RESTful \ac{API} to ensure a standardized, stateless, and scalable interface for communication between the Main System and Identity Management System. \\
  		\hline
  		NFIR-1 & Data Integrity & 
- 		The service must maintain schema consistency during the serialization and deserialization of DataFrames to ensure no data loss occurs during the HTTP transmission process. \\
+ 		The service must maintain schema consistency during the serialization and deserialization of DataFrames into \ac{JSON} to ensure no data loss occurs during the \ac{HTTP} transmission process. \\
  		\hline		
  		NFIR-2 & Programming Language & 
  		The Backend of the MECOIS project is written in python3. Therefore, this project must  also use python3. \autocite{github_mecois} \\
  		\hline
  		NFIR-3 & License Policy & 
- 		The contributing guidelines \autocite{github_mecois} state:
- 		
- 		"You are allowed to use any package that can help you do your work, as long as it is not a copyleft or proprietary license. However, it is still a good idea to ask beforehand, so you do not put in unnecessary work." \\
+ 		The contributing guidelines state that dependencies should be kept to a minimum and forbids packages with a copyleft or proprietary license.  \autocite{github_mecois} \\
  		\hline
  		NFIR-4 & Styleguide and Clean Code & 
- 		The contributing guidelines \autocite{github_mecois} state:
- 		
- 		"We follow the PEP8 standard (with minor exceptions like allowing longer line limits). You can run the custom linter using: pylint.
- 		
- 		Additionally, your code must follow these rules before being merged into the main branch:
- 		
- 		\begin{itemize}
- 		\item Remove comments that are not necessary for understanding your code
- 		\item Remove unnecessary print statements
- 		\item Make sure to update and provide the DocString description of the methods you write. Make sure to have it adjusted to your use-case if you copy method-stubs from other part of the code"
- 		\end{itemize}\\
+ 		Implementations must follow the style guidelines of the main project. \autocite{github_mecois} \\
  		\hline
  	\end{tabular}
  \end{table}
