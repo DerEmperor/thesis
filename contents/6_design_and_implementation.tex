@@ -6,7 +6,7 @@ Chapter \ref{chapter:architecture} described the architecture of the MECOIS proj
 \section{Reason for an Anonymization Service}
 \label{sec:reason_for_a_anonymization_service}
 
-According to the \ac{BDSG}, personal data may only be collected, processed, or used for a specific purpose. It is forbidden to use this data for other purposes. There are only a few specific exceptions for this rule. \autocite[72]{daeubler2017glaeserne}
+Under the \ac{BDSG}, personal data collection, processing, and usage are strictly bound to specified purposes, prohibiting secondary use without explicit authorization. Furthermore, to uphold the right to informational self-determination, data subjects must be informed of the specific data stored about them, subject only to narrow statutory exceptions. \autocite[72,349]{daeubler2017glaeserne}
 
 \subsection{Purpose Limitation}
 
@@ -40,13 +40,13 @@ The identification and categorization of identifiers is a fundamental prerequisi
 
 \paragraph{Direct Identifiers}
 
-Direct identifiers, such as civil names, social security numbers, or email addresses, allow for the immediate identification of a natural person without further processing.
+Direct identifiers, such as civil names, social security numbers, or email addresses, allow for the immediate identification of a natural person without further information or processing.
 \autocite[87--88]{Krebs2022}
 \autocite[37, 71]{gmdsbvd2024praxishilfe}
 
 \paragraph{Indirect Identifiers}
 
-Indirect identifiers or quasi-identifiers include data points like birth dates, ZIP codes, or rare job titles that do not identify a person in isolation but can lead to identification when combined with external datasets or background knowledge — a risk often termed "singling out".
+Indirect identifiers or quasi-identifiers include data points like birth dates, ZIP codes, or rare job titles that do not identify a person in isolation but can lead to identification when combined with external datasets or background knowledge, a risk often termed "singling out".
 \autocite[87--88]{Krebs2022}
 \autocite[5, 13]{schwartmann2022praxisleitfaden}
 \autocite[37]{gmdsbvd2024praxishilfe}
@@ -70,7 +70,7 @@ In the context of GitHub commits, direct identifiers are: names and emails of au
 
 Techniques for pseudonymization and anonymization are categorized based on their technical approach and the type of data they address.
 
-The boundary between pseudonymization and anonymization is fundamentally fluid because the technical methods used — such as masking, shuffling, or the variance method — are often identical for both processes. Technically, these randomization and transformation techniques serve as common building blocks; the legal and practical classification of the resulting data depends on the management of "additional information" and the context of the data environment. For instance, a method like masking is classified as pseudonymization if the researcher retains a secure mapping table to restore the original identifiers, but it becomes anonymization if that key is irreversibly destroyed. This status remains dynamic rather than absolute, as the availability of new external datasets or advances in analytical power can enable the re-identification of data previously considered anonymous. Consequently, the transition between these two states depends heavily on the "reasonability test", where data is only truly anonymous if re-identification is either factually impossible or requires a disproportionate effort in terms of time, cost, and manpower.
+The boundary between pseudonymization and anonymization is fundamentally fluid because the technical methods used, such as masking, shuffling, or the variance method, are often identical for both processes. Technically, these randomization and transformation techniques serve as common building blocks; the legal and practical classification of the resulting data depends on the management of "additional information" and the context of the data environment. For instance, a method like masking is classified as pseudonymization if the researcher retains a secure mapping table to restore the original identifiers, but it becomes anonymization if that key is irreversibly destroyed. This status remains dynamic rather than absolute, as the availability of new external datasets or advances in analytical power can enable the re-identification of data previously considered anonymous. Consequently, the transition between these two states depends heavily on the "reasonability test", where data is only truly anonymous if re-identification is either factually impossible or requires a disproportionate effort in terms of time, cost, and manpower.
 \autocite[3--4]{schwartmann2022praxisleitfaden}
 \autocite[44--45, 55, 68, 71]{gmdsbvd2024praxishilfe}
 \autocite[77--80]{Krebs2022}
@@ -148,7 +148,7 @@ Generalization and aggregation are the technical pillars for implementing formal
 \autocite[33--34]{schwartmann2022praxisleitfaden}
 
 \paragraph{k-Anonymity}
-The k-Anonymity model provides a standard for measuring anonymity by ensuring that every record in a dataset is indistinguishable from at least k-1 other records based on its quasi-identifiers. By grouping individuals into these "equivalence classes," the model prevents attackers from isolating a specific person within the data. While a higher value for k significantly reduces the probability of identity disclosure—calculated as 1/k—the model remains vulnerable to attacks that can derive sensitive attributes if all members of a group share the same characteristic.
+The k-Anonymity model provides a standard for measuring anonymity by ensuring that every record in a dataset is indistinguishable from at least k-1 other records based on its quasi-identifiers. By grouping individuals into these "equivalence classes," the model prevents attackers from isolating a specific person within the data. While a higher value for k significantly reduces the probability of identity disclosure, calculated as 1/k, the model remains vulnerable to attacks that can derive sensitive attributes if all members of a group share the same characteristic.
 \autocite[89--92, 138]{Krebs2022}
 \autocite[44--46]{gmdsbvd2024praxishilfe}
 \autocite[33--34]{schwartmann2022praxisleitfaden}
@@ -177,7 +177,7 @@ Differential Privacy is a rigorous mathematical framework that protects individu
 \autocite[46--47]{gmdsbvd2024praxishilfe}
 
 \paragraph{Data Synthesis}
-Data Synthesis involves building a statistical model of the original data set to generate entirely new, artificial data that reflects the properties of the original information without including real personal identifiers. Advanced techniques, such as a \ac{GAN}, allow for the creation of realistic synthetic data points — such as images or medical records — that maintain the statistical distribution of the source material. This method is particularly valuable for training machine learning models or testing software when access to authentic personal data is legally restricted. While no direct link exists between the original and synthetic data, the synthesis model must be carefully steered to prevent the disclosure of unique patterns that could lead to re-identification.
+Data Synthesis involves building a statistical model of the original data set to generate entirely new, artificial data that reflects the properties of the original information without including real personal identifiers. Advanced techniques, such as a \ac{GAN}, allow for the creation of realistic synthetic data points, such as images or medical records, that maintain the statistical distribution of the source material. This method is particularly valuable for training machine learning models or testing software when access to authentic personal data is legally restricted. While no direct link exists between the original and synthetic data, the synthesis model must be carefully steered to prevent the disclosure of unique patterns that could lead to re-identification.
 \autocite[19, 99--101]{Krebs2022}
 \autocite[34--35]{schwartmann2022praxisleitfaden}
 
@@ -199,7 +199,7 @@ This process involves deleting the decoupled metadata layer in files like PDFs o
 \autocite[107--110]{Krebs2022}
 
 \paragraph{Content-Level Masking and Natural Language Processing}
-This technique uses \ac{NLP} to identify specific entities within a text—such as names, companies, or locations—and replaces them with placeholders or generic strings. Because manual redaction is often inefficient for large datasets, computer-linguistic methods like named entity recognition are used to automatically extract and mask these identifiers.
+This technique uses \ac{NLP} to identify specific entities within a text, such as names, companies, or locations, and replaces them with placeholders or generic strings. Because manual redaction is often inefficient for large datasets, computer-linguistic methods like named entity recognition are used to automatically extract and mask these identifiers.
 \autocite[107--110]{Krebs2022}
 
 \paragraph{Paraphrasing and Coreference Replacement}
@@ -218,7 +218,7 @@ Multimedia processing techniques are specialized methods used to obscure persona
 
 \section{The Risk of Re-Identification}
 
-There is no fixed, universally applicable threshold that, once met, automatically renders data anonymous; instead, anonymization is a contextual state determined by a "reasonability test". Because absolute anonymization — where re-identification is impossible under any circumstances — is considered practically unachievable and is not legally required, the focus is on whether identification is unlikely or requires a disproportionate effort in terms of time, cost, and manpower. Consequently, rather than relying on a static limit, researchers must perform a comprehensive risk assessment that considers the specific data environment, the intended use-case (such as internal analysis versus public release), and the likely means available to a potential attacker. This evaluation should be formalized in a risk report or "attacker model" that documents the chosen transformation methods, identifies potential re-identification scenarios like "singling out" or "linkage attacks," and quantifies the remaining residual risk. Under the accountability principle of the \ac{GDPR}, this systematic process of evaluation and documentation is essential to demonstrate that the risk to the rights and freedoms of individuals has been effectively mitigated.
+There is no fixed, universally applicable threshold that, once met, automatically renders data anonymous; instead, anonymization is a contextual state determined by a "reasonability test". Because absolute anonymization, where re-identification is impossible under any circumstances, is considered practically unachievable and is not legally required, the focus is on whether identification is unlikely or requires a disproportionate effort in terms of time, cost, and manpower. Consequently, rather than relying on a static limit, researchers must perform a comprehensive risk assessment that considers the specific data environment, the intended use-case (such as internal analysis versus public release), and the likely means available to a potential attacker. This evaluation should be formalized in a risk report or "attacker model" that documents the chosen transformation methods, identifies potential re-identification scenarios like "singling out" or "linkage attacks," and quantifies the remaining residual risk. Under the accountability principle of the \ac{GDPR}, this systematic process of evaluation and documentation is essential to demonstrate that the risk to the rights and freedoms of individuals has been effectively mitigated.
 \autocite[120, 124--132]{Krebs2022}
 \autocite[18--19, 55, 60--61, 68--71]{gmdsbvd2024praxishilfe}
 \autocite[5--6, 17, 25--26, 28--29, 60--61]{schwartmann2022praxisleitfaden}
@@ -227,12 +227,12 @@ There is no fixed, universally applicable threshold that, once met, automaticall
 \section{Deciding on an Approach}
 \label{subsec:deciding_on_an_approach}
 
-Direct identifiers should be pseudonymized by hashing them into deterministic \acp{UUID}. To achieve k-anonymity, data points can be aggregated according to the organizational hierarchy, specifically by grouping employees into their respective teams. However, indirect identifiers, such as Git commit messages, still present a re-identification risk depending on the specific metrics being analyzed; in a worst-case scenario, these messages must be completely removed. Finally, re-identification risks associated with timestamps can be mitigated by injecting temporal noise.
+To protect developer privacy while retaining metric utility, direct identifiers are pseudonymized by hashing them into deterministic UUIDs, ensuring that cross-platform data can be consistently linked over time without revealing identities. To prevent individuals from being "singled out," $k$-anonymity is established by aggregating data points along organizational lines and grouping contributors into team-level equivalence classes. However, because indirect identifiers—such as Git commit messages—can still enable re-identification when combined with background knowledge, these text fields must be strictly controlled or entirely removed in high-risk scenarios. Finally, temporal noise is injected into timestamps to perturb exact activity times, effectively mitigating the risk of time-correlation attacks while preserving broader analytical trends. 
 
 \section{Implementing the Anonymization Service}
 \label{sec:anonymization_server}
 
-To isolate the handling of sensitive data, the anonymization service operates independently from the primary MECOIS architecture. In addition to performing anonymization, the service acts as a proxy for requests directed to SortingHat, granting fine-grained control over the information exposed to MECOIS. Furthermore, this decoupled architecture supports flexible deployment models: individual components can be deployed independently, allowing MECOIS to run as a standalone application or as a fully integrated on-premise installation.
+To isolate the handling of sensitive data, the anonymization service operates independently from the primary MECOIS architecture by implementing a \ac{REST} \ac{API}. In addition to performing anonymization, the service acts as a proxy for requests directed to SortingHat, granting fine-grained control over the information exposed to MECOIS. Furthermore, this decoupled architecture supports flexible deployment models: individual components can be deployed independently, allowing MECOIS to run as a standalone application or as a fully integrated on-premise installation.
 
 \subsection{Modules}
 The anonymization service is structured into five core modules:
@@ -257,7 +257,7 @@ A specialized client interface designed to communicate directly with the Sorting
 \subsection{Implementing the Server}
 \label{subsec:implementing_the_server}
 
-The anonymization service is implemented as a RESTful web service to provide a standardized, stateless, and scalable interface within the MECOIS architecture. Following the fundamental principles of Representational State Transfer, the service utilizes a uniform interface where resources are identified by unique \acp{URL} and interacted with through standard \ac{HTTP} methods. To minimize external software dependencies during the prototyping phase, the server is built using Python’s native \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by \ac{HTTP} request method. Figure \ref{fig:server_flow} represents how the server handles each request. Communication between components is handled via \ac{JSON} payloads, with the \texttt{utils.converter} module ensuring the integrity of PySpark \texttt{DataFrames} and their associated schemas during transmission. By maintaining statelessness, the \ac{API} allows multiple service instances to be scaled horizontally, meeting the performance demands of high-dimensional metadata processing without compromising data consistency.
+The anonymization service is implemented as a RESTful web service to provide a standardized, stateless, and scalable interface within the MECOIS architecture. Following the fundamental principles of \ac{REST}, the service utilizes a uniform interface where resources are identified by unique \acp{URL} and interacted with through standard \ac{HTTP} methods. To minimize external software dependencies during the prototyping phase, the server is built using Python’s native \texttt{http.server} module \autocite{python_http_server_2026}. Table \ref{tab:server_endpoints} outlines the endpoints exposed by the server, categorized by \ac{HTTP} request method. Figure \ref{fig:server_flow} represents how the server handles each request. Communication between components is handled via \ac{JSON} payloads, with the \texttt{utils.converter} module ensuring the integrity of PySpark \texttt{DataFrames} and their associated schemas during transmission. By maintaining statelessness, the \ac{API} allows multiple service instances to be scaled horizontally, meeting the performance demands of high-dimensional metadata processing without compromising data consistency.
 
 \begin{table}[ht]
 	\centering
@@ -318,7 +318,7 @@ Re-evaluates and updates previously anonymized and pseudonymized datasets in res
 \subsection{Implementing the Pseudonymization}
 \label{subsec:implementing_pseudonymization}
 
-Identity management is handled by SortingHat, which assigns a \ac{UUID} to each identity. The anonymization service subsequently replaces all direct identifiers — specified via a configuration file — with this assigned \ac{UUID}. 
+Identity management is handled by SortingHat, which assigns a \ac{UUID} to each identity. The anonymization service subsequently replaces all direct identifiers, specified via a configuration file, with this assigned \ac{UUID}. 
 
 SortingHat generates the \ac{UUID} by hashing the user's name, email address, and username using the SHA-1 algorithm provided by Python's hashlib library \autocite{sortinghat_repo}. However, this approach presents cryptographic vulnerabilities: SHA-1 is susceptible to hash collisions, lacks resistance to brute-force attacks, and does not support salting \autocite{python_hashlib_2026}. Despite these security limitations, SortingHat's native \ac{UUID} mechanism is retained during the current development phase due to its implementation simplicity, with a cryptographically secure scheme planned for future iterations.
 
@@ -331,5 +331,5 @@ SortingHat supports associating individuals with specific enrollments, where an 
 \subsection{Deploying the Server}
 \label{subsec:deploying_the_server}
 
-For the deployment of the server, this project utilizes Docker Compose, a tool specifically designed for managing multi-container applications through a unified YAML configuration file. This approach offers significant advantages, most notably the ability to link multiple independent microservices and initiate them simultaneously with a single command, providing a higher-level abstraction than individual run commands. Furthermore, the use of Docker ensures consistent environments and application isolation, which prevents dependency conflicts and eases the transition from development to production. The data and application logic are inherently more secure in this setup because they are encapsulated within a container — an isolated instance that utilizes namespaces and its own local file system to remain distinct from the host machine and other services. \autocite[3--5,13,28--29,34--36, 77--81]{jangla2018accelerating}
+For the deployment of the server, this project utilizes Docker Compose, a tool specifically designed for managing multi-container applications through a unified YAML configuration file. This approach offers significant advantages, most notably the ability to link multiple independent microservices and initiate them simultaneously with a single command, providing a higher-level abstraction than individual run commands. Furthermore, the use of Docker ensures consistent environments and application isolation, which prevents dependency conflicts and eases the transition from development to production. The data and application logic are inherently more secure in this setup because they are encapsulated within a container, an isolated instance that utilizes namespaces and its own local file system to remain distinct from the host machine and other services. \autocite[3--5,13,28--29,34--36, 77--81]{jangla2018accelerating}
 
